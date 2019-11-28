@@ -1,0 +1,88 @@
+/* Estilos para ToolTips */
+._tooltip {
+	cursor:pointer;
+	}
+.tooltip {
+	z-index: 10 !important;
+	}
+.tooltip-inner {
+	color: #000000 !important;
+	background-color:#fdf74c !important;
+	border-radius: 11px !important;
+	border: 3px solid #333333 !important;
+	font-size:10pt !important;
+	padding: 6px 10px 6px 10px !important;
+	}
+.tooltip.in {
+	filter: alpha(opacity=100) !important;
+	opacity:1.0 !important;
+	}
+.tooltip.top .tooltip-arrow ,
+.tooltip.top-left .tooltip-arrow ,
+.tooltip.top-right .tooltip-arrow ,
+.tooltip.right .tooltip-arrow ,
+.tooltip.left .tooltip-arrow,
+.tooltip.bottom .tooltip-arrow,
+.tooltip.bottom-left .tooltip-arrow ,
+.tooltip.bottom-right .tooltip-arrow {
+	background-color:#FFFFAA !important;
+	}
+.tooltip.top .tooltip-arrow ,
+.tooltip.top-left .tooltip-arrow ,
+.tooltip.top-right .tooltip-arrow {
+	border-top-color: #333333 !important;
+	}
+.tooltip.right .tooltip-arrow {
+	border-right-color: #333333 !important;
+	}
+.tooltip.left .tooltip-arrow {
+	border-left-color: #333333 !important;
+	}
+.tooltip.bottom .tooltip-arrow,
+.tooltip.bottom-left .tooltip-arrow ,
+.tooltip.bottom-right .tooltip-arrow {
+	border-bottom-color: #333333 !important;
+	}
+.ui-tooltip, .arrow:after {
+	background: #FFFF00;
+	border: 2px solid #999999;
+	}
+.ui-tooltip {
+	padding: 10px 20px;
+	color: #333333;
+	border-radius: 20px;
+	font-size:10pt;
+	box-shadow: 0 0 7px black;
+	}
+.arrow {
+	width: 70px;
+	height: 16px;
+	overflow: hidden;
+	position: absolute;
+	left: 50%;
+	margin-left: -35px;
+	bottom: -16px;
+	}
+.arrow.top {
+	top: -16px;
+	bottom: auto;
+	}
+.arrow.left {
+	left: 20%;
+	}
+.arrow:after {
+	content: "";
+	position: absolute;
+	left: 20px;
+	top: -20px;
+	width: 25px;
+	height: 25px;
+	box-shadow: 6px 5px 9px -9px black;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+	}
+.arrow.top:after {
+	bottom: -20px;
+	top: auto;
+	}

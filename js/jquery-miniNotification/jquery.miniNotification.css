@@ -1,0 +1,25 @@
+#mini-notification 
+	{
+    display: none;
+    position: fixed;
+    cursor: pointer;
+    width: 100%;
+    font-size: 14px;
+    text-align: center;
+	padding:10px;
+    z-index:9999;
+    -moz-box-shadow:0 0em 0.5em rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow:0 0em 0.5em rgba(0, 0, 0, 0.3);
+    box-shadow:0 0em 0.5em rgba(0, 0, 0, 0.3);
+	}
+#mini-notification.ok { background:#004632; color:#FFFFFF;} 
+#mini-notification.alert { background:#C76600; color:#FFFFFF;}
+#mini-notification.error { background:#990000; color:#FFFFFF;}
+#mini-notification.loading { background:#000000; color:#FFFFFF;}
+#mini-notification p { margin: 0px auto 0px auto; display:inline-block; padding:15px 0px 15px 45px;}
+#mini-notification p.ok { background:url(../../imgs/mn-ok.png) 0px 0px no-repeat;}
+#mini-notification p.alert { background:url(../../imgs/mn-alert.png) 0px 0px no-repeat;}
+#mini-notification p.error { background:url(../../imgs/mn-error.png) 0px 0px no-repeat;}
+#mini-notification p.loading { background:url(../../imgs/mn-loading.gif) 0px 0px no-repeat;}
+#mini-notification .close { position: absolute; color: #000; top: 10px; right: 0; }
+#mini-notification a.close:hover { text-decoration: underline; }

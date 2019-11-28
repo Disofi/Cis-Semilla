@@ -1,0 +1,24 @@
+@charset "utf-8";
+/* CSS Document */
+
+@media only screen and (max-width : 979px){
+	div#main_content_holder div#main_content { padding:20px 15px 20px 15px !important;}
+	#menu { padding-bottom:0px !important;}
+	}
+@media only screen and (max-width : 480px){
+	div#main_content_holder { top:179px;}
+	}
+
+@media only screen and (max-width : 320px){
+	header h1 { float:initial !important; margin:0px auto 0px auto !important;}
+	}
+
+/*
+Tamaños para media queries:
+***************************
+@media only screen and (max-width : 1200px){}
+@media only screen and (max-width : 979px){}
+@media only screen and (max-width : 767px){}
+@media only screen and (max-width : 480px){}
+@media only screen and (max-width : 320px){}
+*/

@@ -1,0 +1,10 @@
+REAL".$a."
+Porcentaje".$a."
+
+
+PORCENTAJE
+
+nuevoTotalForecast
+
+$fila['REALTT'.$th]
+$fila['PORCENTAJE'.$th]
