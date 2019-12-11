@@ -1,7 +1,6 @@
 <?php
 include('inc/funciones.php');
 include('inc/funciones_agrupacion_cuentas.php');
-//echo $_SESSION['emp']['id']."<----<br>";
 ?>
 
 <div class="content">

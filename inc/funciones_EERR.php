@@ -4,7 +4,6 @@ function formatoMoneda($numero, $moneda)
 	$bandera = 0;
 	$rest = substr($numero, 0, 1);
 	$simbolo = "";
-	$final = "";
 	
 	if($rest == '-')
 	{
@@ -42,7 +41,7 @@ function formatoMoneda($numero, $moneda)
 	
 	if(!$num_entero)
 	{
-		$num_entero = $longitud;
+        $num_entero = $longitud;
         $centavos = ".00";
         $entero = substr($numero, -$longitud,$longitud);
     }
@@ -51,7 +50,7 @@ function formatoMoneda($numero, $moneda)
     $res = $num_entero-($start*3);
     if($res == 0){$coma = $start-1; $init = 0;}else{$coma = $start; $init = 3-$res;}
     $d= $init; $i = 0; $c = $coma;
-        while($i < $num_entero)
+        while($i <= $num_entero)
 		{
             if($d == 3 && $c > 0)
 			{
@@ -466,15 +465,15 @@ function EERR($ano,$primerDia,$ultimoDia,$inicioAcumulado,$finAcumulado,$cc,$pre
 					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($fila['PPTO'.$th],pesos).'</th>';
 					$clase = "";
 					
-					// if($fila['REAL'.$th] >= 0) {$clase = $hrefPositivo;}
-					// else { $clase = $hrefNegativo;	}
-					// echo '<th class="ta_r "><a href="index.php?mod=saldos_ver&id='.$fila['idCuenta'].'&b='.$mesini.'&c='.$ano.'&cc='.$cc[$th].'" target="_blank" '.$clase.' >'.formatoMoneda($fila['REAL'.$th],pesos).'</a></th>';
-					// $clase = "";
+					if($fila['REAL'.$th] >= 0) {$clase = $hrefPositivo;}
+					else { $clase = $hrefNegativo;	}
+					echo '<th class="ta_r "><a href="index.php?mod=saldos_ver&id='.$fila['idCuenta'].'&b='.$mesini.'&c='.$ano.'&cc='.$cc[$th].'" target="_blank" '.$clase.' >'.formatoMoneda($fila['REAL'.$th],pesos).'</a></th>';
+					$clase = "";
 					
-					// if($fila['PORCENTAJE'.$th] >= 0) {$clase = "positivo";}
-					// else { $clase = "negativo";	}
-					// echo '<th class="ta_r '.$clase.'">'.$fila['PORCENTAJE'.$th].' %</th>';
-					// $clase = "";
+					if($fila['PORCENTAJE'.$th] >= 0) {$clase = "positivo";}
+					else { $clase = "negativo";	}
+					echo '<th class="ta_r '.$clase.'">'.$fila['PORCENTAJE'.$th].' %</th>';
+					$clase = "";
 					
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $fila['PPTO'.$th], PHPExcel_Cell_DataType::TYPE_NUMERIC);
 					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
@@ -494,37 +493,34 @@ function EERR($ano,$primerDia,$ultimoDia,$inicioAcumulado,$finAcumulado,$cc,$pre
 					$Letra++;
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $fila['REAL'.$th], PHPExcel_Cell_DataType::TYPE_NUMERIC);
 					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-					
-					// if($fila['REAL'.$th] >= 0) 
-					// {
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivo);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-					// }
-					// else 
-					// { 
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativo);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-					// }
-
+					if($fila['REAL'.$th] >= 0) 
+					{
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivo);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+					}
+					else 
+					{ 
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativo);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+					}
 					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);									
 					$Letra++;
 					
-					// if($fila['PORCENTAJE'.$th] >= 0) 
-					// {
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivo);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-					// }
-					// else 
-					// { 
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativo);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-					// }
-					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $fila['PORCENTAJE'.$th]." %");
-					
+					if($fila['PORCENTAJE'.$th] >= 0) 
+					{
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivo);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+					}
+					else 
+					{ 
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativo);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+					}
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $fila['PORCENTAJE'.$th]." %");
 					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
 					
 					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);									
@@ -937,24 +933,24 @@ function EERR($ano,$primerDia,$ultimoDia,$inicioAcumulado,$finAcumulado,$cc,$pre
 					for($th=0;$th<$contadorCC;$th++)
 					{
 							$totalSegundoPPTO = (abs($primerNivelPPTO[$th]) - abs($segundoNivelPPTO[$th]));
-							//$totalSegundoREAL = (abs($primerNivelREAL[$th]) - abs($segundoNivelREAL[$th]));
-							//$totalSegundoPORCENTAJE = (abs($primerNivelPORCENTAJE[$th]) - abs($segundoNivelPORCENTAJE[$th]));
-							//$totalSegundoACUMULADO = (abs($primerNivelACUMULADO[$th]) - abs($segundoNivelACUMULADO[$th]));
+							$totalSegundoREAL = (abs($primerNivelREAL[$th]) - abs($segundoNivelREAL[$th]));
+							$totalSegundoPORCENTAJE = (abs($primerNivelPORCENTAJE[$th]) - abs($segundoNivelPORCENTAJE[$th]));
+							$totalSegundoACUMULADO = (abs($primerNivelACUMULADO[$th]) - abs($segundoNivelACUMULADO[$th]));
 							
 							if($totalSegundoPPTO >= 0) {$clase = "positivoTotal";}
 							else { $clase = "negativoTotal";	}
 							echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalSegundoPPTO,pesos).'</th>';
 							$clase = "";
 							
-							// if($totalSegundoREAL >= 0) {$clase = "positivoTotal";}
-							// else { $clase = "negativoTotal";	}
-							// echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalSegundoREAL,pesos).'</th>';
-							// $clase = "";
+							if($totalSegundoREAL >= 0) {$clase = "positivoTotal";}
+							else { $clase = "negativoTotal";	}
+							echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalSegundoREAL,pesos).'</th>';
+							$clase = "";
 							
-							// if($totalSegundoPORCENTAJE >= 0) {$clase = "positivoTotal";}
-							// else { $clase = "negativoTotal";	}
-							// echo '<th class="ta_r '.$clase.'">'.$totalSegundoPORCENTAJE.' %</th>';
-							// $clase = "";
+							if($totalSegundoPORCENTAJE >= 0) {$clase = "positivoTotal";}
+							else { $clase = "negativoTotal";	}
+							echo '<th class="ta_r '.$clase.'">'.$totalSegundoPORCENTAJE.' %</th>';
+							$clase = "";
 							$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalSegundoPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
 							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
 							if($totalSegundoPPTO >= 0) 
@@ -975,46 +971,44 @@ function EERR($ano,$primerDia,$ultimoDia,$inicioAcumulado,$finAcumulado,$cc,$pre
 							$Letra++;
 							$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalSegundoREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
 							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-							// if($totalSegundoREAL >= 0) 
-							// {
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							// else 
-							// { 
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-							// $Letra++;
-
-							// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalSegundoPORCENTAJE." %");
-							// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-							// if($totalSegundoPORCENTAJE >= 0) 
-							// {
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							// else 
-							// { 
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-							// $Letra++;
-
+							if($totalSegundoREAL >= 0) 
+							{
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							else 
+							{ 
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+							$Letra++;
+							$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalSegundoPORCENTAJE." %");
+							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+							if($totalSegundoPORCENTAJE >= 0) 
+							{
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							else 
+							{ 
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+							$Letra++;							
 							$segundaLineaPPTO += $totalSegundoPPTO;
-							// $segundaLineaREAL += $totalSegundoREAL;
-							// $segundaLineaACUMULADO += $totalSegundoACUMULADO;
-							// $segundaLineaPORCENTAJE += ($segundaLineaREAL/$segundaLineaPPTO);
+							$segundaLineaREAL += $totalSegundoREAL;
+							$segundaLineaACUMULADO += $totalSegundoACUMULADO;
+							$segundaLineaPORCENTAJE += ($segundaLineaREAL/$segundaLineaPPTO);
 					}
 					
 					if($segundaLineaPPTO >= 0) {$clase = "positivoTotal";}
@@ -1022,15 +1016,15 @@ function EERR($ano,$primerDia,$ultimoDia,$inicioAcumulado,$finAcumulado,$cc,$pre
 					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($segundaLineaPPTO,pesos).'</th>';
 					$clase = "";
 					
-					// if($segundaLineaREAL >= 0) {$clase = "positivoTotal";}
-					// else { $clase = "negativoTotal";	}
-					// echo '<th class="ta_r '.$clase.'">'.formatoMoneda($segundaLineaREAL,pesos).'</th>';
-					// $clase = "";
+					if($segundaLineaREAL >= 0) {$clase = "positivoTotal";}
+					else { $clase = "negativoTotal";	}
+					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($segundaLineaREAL,pesos).'</th>';
+					$clase = "";
 					
-					// if($segundaLineaPORCENTAJE >= 0) {$clase = "positivoTotal";}
-					// else { $clase = "negativoTotal";	}
-					// echo '<th class="ta_r '.$clase.'">'.$segundaLineaPORCENTAJE.' %</th>';
-					// $clase = "";
+					if($segundaLineaPORCENTAJE >= 0) {$clase = "positivoTotal";}
+					else { $clase = "negativoTotal";	}
+					echo '<th class="ta_r '.$clase.'">'.$segundaLineaPORCENTAJE.' %</th>';
+					$clase = "";
 					echo '</tr>';
 					echo '<tr height="10"></tr>';
 					echo '<tr height="10"></tr>';	
@@ -1055,49 +1049,46 @@ function EERR($ano,$primerDia,$ultimoDia,$inicioAcumulado,$finAcumulado,$cc,$pre
 					}
 					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 					$Letra++;
-
-					// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $segundaLineaREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-					// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-					// if($segundaLineaREAL >= 0) 
-					// {
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					// else 
-					// { 
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-					// $Letra++;
-					
-					// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $segundaLineaPORCENTAJE." %");
-					// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-					// if($segundaLineaPORCENTAJE >= 0) 
-					// {
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					// else 
-					// { 
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-					// $Letra++;
-
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $segundaLineaREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+					if($segundaLineaREAL >= 0) 
+					{
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					else 
+					{ 
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+					$Letra++;
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $segundaLineaPORCENTAJE." %");
+					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+					if($segundaLineaPORCENTAJE >= 0) 
+					{
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					else 
+					{ 
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+					$Letra++;
 					$keyExcel++;
 					$keyExcelEspacio = $keyExcel;
 					$keyExcel++;
@@ -2247,12 +2238,18 @@ function totalNivel($idNivel)
 			->setCategory("EERR");
 
 	$mes = date("m",strtotime($primerDia));
-	$primerNivelPPTO = array(null);
-	$segundoNivelPPTO = array(null);	
-	$tercerNivelPPTO = array(null);
-	$cuartoNivelPPTO = array(null);
-	$quintoNivelPPTO = array(null);
-	$sextoNivelPPTO = array(null);
+	//echo $mesini."MES ACTUAL<---<br>";
+	//echo $ano."  A&ntilde;o <br>";
+	//echo $primerDia."  primerDia <br>";
+	//echo $ultimoDia."  ultimoDia <br>";
+	//echo $inicioAcumulado." inicioAcumulado <br>";
+	//echo $finAcumulado."  finAcumulados <br>";
+	//echo $presupuesto." PPTO<br>";
+	//echo $mes." MES<--<br>";
+	//print_r($cc);	
+	//echo "<br>";
+	//echo $_SESSION['emp']['id']." VariableSesion";
+	//echo $dba." db";
 	$arrayIDNivel = "";
 	$arrayNombreNivel = "";
 	$arrayDescripcionNivel = "";
@@ -2262,8 +2259,11 @@ function totalNivel($idNivel)
 	$indiceCiclo = 0;
 	$arrayCiclos = "";
 	$clase = "";
-	$queryPosicion = "";
 
+	
+	//echo $contadorCC."<--<br>";
+	// $querySabana = "";
+	
 	//=========QUERY PARA AGRUPAR NIVELES===========================
 
 	$queryNiveles =" SELECT idNivel, tituloNivel, descripcionNivel ";
@@ -2273,19 +2273,19 @@ function totalNivel($idNivel)
 	$rec_b = sqlsrv_query( $conn, $queryNiveles , array(), array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
 	while($row = sqlsrv_fetch_array($rec_b))
 	{
+		//echo $row['idNivel']." //".$row['tituloNivel']." //".$row['descripcionNivel']." Datos Query1-Niveles"."<br>";
 		$arrayIDNivel[$indiceCabecera] = $row['idNivel'];
 		$arrayNombreNivel[$indiceCabecera] = $row["tituloNivel"];
 		$arrayDescripcionNivel[$indiceCabecera] = $row["descripcionNivel"];
 		$indiceCabecera++;
 	}
-	echo $queryNiveles." <br><br>";
 	//=============================================================
 
 	//========QUERY TRAE MES Y FECHA ACTUAL========================
 	
 	$fechaactual="select month(GETDATE()) as mes, YEAR(GETDATE())  as ano";
-	$registros_fecha2=sqlsrv_query($conn,$fechaactual,array(),array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-	while($registros_fecha=sqlsrv_fetch_array($registros_fecha2))
+	$registros_fecha=sqlsrv_query($conn,$fechaactual,array(),array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+	while($registros_fecha=sqlsrv_fetch_array($registros_fecha))
 	{
 		$ano=$registros_fecha['ano'];
 		$mes=$registros_fecha['mes'];
@@ -2295,8 +2295,8 @@ function totalNivel($idNivel)
 	//========QUERY DE IMPUESTOS (FECHA Y AÑO ACTUAL)=============
 
 	$consultarimpuesto="select impuesto as impuesto from  parametros where mes='".$mes."' and  ano='".$ano."'";
-		$consulta_impuesto2=sqlsrv_query($conn,$consultarimpuesto,array(),array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-	while($consulta_impuesto=sqlsrv_fetch_array($consulta_impuesto2))
+		$consulta_impuesto=sqlsrv_query($conn,$consultarimpuesto,array(),array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+	while($consulta_impuesto=sqlsrv_fetch_array($consulta_impuesto))
 	{
 		$valorimpuesto=$consulta_impuesto['impuesto'];		
 	}
@@ -2326,7 +2326,6 @@ function totalNivel($idNivel)
 			}
 			$indiceCiclo++;
 		}
-		//echo $queryPosicion."<br><br>";
 	//==========================================================
 
 	$real = "";
@@ -2336,8 +2335,7 @@ function totalNivel($idNivel)
 	$indice = 0;
 	$banderaSTR = 0;	
 	$mesAcumulado = "";
-	$querySabana = "";
-	$resta = "";
+
 	//echo $cc."<br>";
 	//echo $cc[0];
 
@@ -2359,6 +2357,7 @@ function totalNivel($idNivel)
 				{
 					$resta = substr($cc[$a],0,2); 
 				}
+				//echo $resta."<br>";
 	//==========================================================
 
 	//=========PREPARA QUERY CON RESULTADOS PARA CADA COLUMNA POR TANTOS CC TENGA (A)========
@@ -2373,16 +2372,17 @@ function totalNivel($idNivel)
 				//echo $mesini." MESINICIAL <br>";
 				//echo $a." Contador";
 				
-				$ppto.= " ROUND(".$dba.".returnPPTO".$_SESSION['emp']['id']."2('".$ano."','".$presupuesto."','".$resta."',nivel.idCuenta,'".$_SESSION['emp']['id']."','".$mesini."',1)/1000,0) AS PPTO".$a.", ";
-				$real.=" ISNULL(".$dba.".returnREAL".$_SESSION['emp']['id']."('".$ano."',nivel.idCuenta,'".$inicioAcumulado."','".$ultimoDia."','".$resta."','".$_SESSION['emp']['id']."',nivel.idNivel),0)/1000 as REAL".$a."  ,  ";
+				$ppto.= " isnull(ROUND(".$dba.".returnPPTO".$_SESSION['emp']['id']."2('".$ano."','".$presupuesto."','".$resta."',nivel.idCuenta,'".$_SESSION['emp']['id']."','".$mesini."',1)/1000,0),0) AS PPTO".$a.", ";
+				$real.=" ISNULL((".$dba.".returnREAL".$_SESSION['emp']['id']."('".$ano."',nivel.idCuenta,'".$inicioAcumulado."','".$ultimoDia."','".$resta."','".$_SESSION['emp']['id']."',nivel.idNivel)/1000),0) as REAL".$a."  ,  ";
 				$porcentaje.=" Case ";
 				$porcentaje.=" when ".$dba.".returnPPTO".$_SESSION['emp']['id']."2('".$ano."','".$presupuesto."','".$resta."',nivel.idCuenta,'".$_SESSION['emp']['id']."','".$mesini."',1) = 0 then 0 ";
-				$porcentaje.=" ELSE ROUND((ROUND( ";
+				$porcentaje.=" ELSE isnull(ROUND((ROUND( ";
 				$porcentaje.=" (".$dba.".returnREAL".$_SESSION['emp']['id']."('".$ano."',nivel.idCuenta,'".$inicioAcumulado."','".$ultimoDia."','".$resta."','".$_SESSION['emp']['id']."',nivel.idNivel) ";
 				$porcentaje.=" / ";
 				$porcentaje.=" ".$dba.".returnPPTO".$_SESSION['emp']['id']."2('".$ano."','".$presupuesto."','".$resta."',nivel.idCuenta,'".$_SESSION['emp']['id']."','".$mesini."',1)";
-				$porcentaje.=" ),2)),2) END as PORCENTAJE".$a.", ";
+				$porcentaje.=" ),2)),2),0) END as PORCENTAJE".$a.", ";
 				$acumulado.=" ".$dba.".returnRealAcumulado".$_SESSION['emp']['id']."('".$ano."',nivel.idCuenta,'".$_SESSION['emp']['id']."','".$inicioAcumulado."','".$finAcumulado."','".$resta."')/1000 as ACUMULADO".$a.", ";
+
 			}				
 		}
 	//===================================================================================	
@@ -2397,17 +2397,16 @@ function totalNivel($idNivel)
 	$acumulado = substr($acumulado, 0, -2);
 
 	//PRUEBA PRESUPUESTO
-	$ppto = substr($ppto,0,-2);
+	//$ppto = substr($ppto,0,-2);
 	//================
 	for($a=0;$a<count($arrayNiveles);$a++)
 	{
 		//echo $a." Acumulativo For <br>";
 		$querySabana.=" select nivel.orden, nivel.idCuenta,nivel.idNivel, ";
 		$querySabana.=" ".$ppto;
-		//======
-		//$querySabana.=" ".$real;
-		//$querySabana.=" ".$porcentaje;
-		//$querySabana.=" ".$acumulado;
+		$querySabana.=" ".$real;
+		$querySabana.=" ".$porcentaje;
+		$querySabana.=" ".$acumulado;
 		//======
 		$querySabana.=" from ".$dba.".DS_nivelesEERR  nivel ";
 		$querySabana.=" INNER JOIN ".$dba.".[DS_AgrupacionCuentas] agrupacion ON nivel.idCuenta = agrupacion.idNivel ";
@@ -2423,7 +2422,7 @@ function totalNivel($idNivel)
 		}
 	
 	}
-	echo $querySabana;
+	//echo $querySabana. "<br>";
 	//======================================================================================================
 	$objPHPExcel->setActiveSheetIndex(0)
 		->setCellValue('A1', "")
@@ -2596,6 +2595,11 @@ function totalNivel($idNivel)
 		
 		$Letra++;
 		
+	//echo '<th class="ta_c">Descripci&oacute;n</th>';	
+	
+	  
+	
+
 	for ($k=0;$k<$contadorCC;$k++)
 	{
 		
@@ -2628,7 +2632,7 @@ function totalNivel($idNivel)
 		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
 		$objPHPExcel->getActiveSheet()->getStyle($inicioLetra.$keyExcel.":".$Letra.$keyExcel)->applyFromArray($bordeCompleto);
 		$Letra++;
-	//echo '<th class="ta_c" colspan="3">TOTALES</th></tr></thead>';
+	echo '<th class="ta_c" colspan="3">TOTALES</th></tr></thead>';
 	/*FIN CABECERA*/
 	
 	$Letra = "A";
@@ -2650,11 +2654,10 @@ function totalNivel($idNivel)
 	echo '<th class="ta_l">'.nombreNivel(0).'</th>';
 	for ($k=0;$k<$contadorCC;$k++)
 	{
-		echo '<th class="ta_c">PPTO</th>';
-			  /*echo '<th class="ta_c">PPTO</th>
+		echo '<th class="ta_c">PPTO</th>
 			  <th class="ta_c">REAL</th>
 			  <th class="ta_c">%</th>
-			  ';*/
+			  ';
 			  //<th class="ta_c">ACUM</th>
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "PPTO");
 		$objPHPExcel->getActiveSheet()->getColumnDimension($Letra)->setAutoSize(true);
@@ -2664,23 +2667,22 @@ function totalNivel($idNivel)
 		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($textoNegrita);
 		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
 		$Letra++;	  
-
-		// $objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "REAL");
-		// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra)->setAutoSize(true);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($textoNegrita);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-		// $Letra++;	  
-		// $objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "%");
-		// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($textoNegrita);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-		// $Letra++;	  
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "REAL");
+		$objPHPExcel->getActiveSheet()->getColumnDimension($Letra)->setAutoSize(true);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($textoNegrita);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+		$Letra++;	  
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "%");
+		$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($textoNegrita);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+		$Letra++;	  
 		/*
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "ACUMULADO");
 		$objPHPExcel->getActiveSheet()->getColumnDimension($Letra)->setAutoSize(true);
@@ -2689,12 +2691,11 @@ function totalNivel($idNivel)
 		$Letra++;	  	  
 		*/
 	}
-	echo '<th class="ta_c">PPTO</th>';
-		/*echo '
+	echo '
 		<th class="ta_c">PPTO</th>
 		<th class="ta_c">REAL</th>
 		<th class="ta_c">%</th>
-		';*/
+		';
 		//<th class="ta_c">ACUM</th>
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "PPTO");
 			$objPHPExcel->getActiveSheet()->getColumnDimension($Letra)->setAutoSize(true);
@@ -2704,22 +2705,22 @@ function totalNivel($idNivel)
 		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($textoNegrita);
 		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
 		$Letra++;
-		// $objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "REAL");
-		// 	$objPHPExcel->getActiveSheet()->getColumnDimension($Letra)->setAutoSize(true);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($textoNegrita);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-		// $Letra++;
-		// $objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "%");
-		// 	$objPHPExcel->getActiveSheet()->getColumnDimension($Letra)->setAutoSize(true);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($textoNegrita);
-		// $objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-		// $Letra++;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "REAL");
+			$objPHPExcel->getActiveSheet()->getColumnDimension($Letra)->setAutoSize(true);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($textoNegrita);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+		$Letra++;
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "%");
+			$objPHPExcel->getActiveSheet()->getColumnDimension($Letra)->setAutoSize(true);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($textoNegrita);
+		$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+		$Letra++;
 	echo '</tr>';
 	$banderaWhile = 1;
 	$indiceShow = 0;
@@ -2736,7 +2737,7 @@ function totalNivel($idNivel)
 	$keyExcel++;
 	$hrefPositivo = '';
 	$hrefNegativo = '';
-	$sumaPPTO = array(null);
+
 	while($fila = sqlsrv_fetch_array($recSabana))
 		{
 			echo '<tr class="ta_c">';
@@ -2749,6 +2750,9 @@ function totalNivel($idNivel)
 			$Letra++;
 			for($th=0;$th<$contadorCC;$th++)
 			{
+				
+					//echo " //// ".$th." // ".$fila['REAL'.$th]."<br>";
+					//<a href="index.php?mod=saldos_ver&id=7&b=03&c=2016">$ 14.715.662</a>
 					if($fila['PPTO'.$th] >= 0) {$clase = "positivo";}
 					else { $clase = "negativo";	}
 					
@@ -2757,32 +2761,29 @@ function totalNivel($idNivel)
 						$fila['PPTO'.$th] = ($fila['PPTO'.$th] *-1);
 					}
 					
-					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($fila['PPTO'.$th],'pesos').'</th>';
+					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($fila['PPTO'.$th],pesos).'</th>';
 					$clase = "";
-
-					//===================Prueba solo presupuesto===========
-					//if($fila['REAL'.$th] >= 0) {$clase = $hrefPositivo;}
-					//else { $clase = $hrefNegativo;	}
-					//if($fila['idCuenta'] == 24)
-					//{
-					//	$fila['REAL'.$th] = ($fila['REAL'.$th] *-1);
-					//}
-					//echo '<th class="ta_r "><a href="index.php?mod=saldos_acumulado_ver&id='.$fila['idCuenta'].'&b='.$mesini.'&c='.$ano.'&cc='.$cc[$th].'" target="_blank" '.$clase.' >'.formatoMoneda($fila['REAL'.$th],pesos).'</a></th>';
-					//$clase = "";
-					//=====================================================
-
-					//===================Prueba solo presupuesto===========
-					//if($fila['PORCENTAJE'.$th] >= 0) {$clase = "positivo";}
-					//else { $clase = "negativo";	}
-					//echo '<th class="ta_r '.$clase.'">'.$fila['PORCENTAJE'.$th].' %</th>';//columna %
-					//$clase = "";
-					//======================================================
-
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $fila['PPTO'.$th], PHPExcel_Cell_DataType::TYPE_NUMERIC);
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($fila['PPTO'.$th]));
+					
+					if($fila['REAL'.$th] >= 0) {$clase = "positivo";}
+					else { $clase = "negativo";	}
+					if($fila['idCuenta'] == 24)
+					{
+						$fila['REAL'.$th] = ($fila['REAL'.$th] *-1);
+					}
+					echo '<th class="ta_r "><a href="index.php?mod=saldos_acumulado_ver&id='.$fila['idCuenta'].'&b='.$mesini.'&c='.$ano.'&cc='.$cc[$th].'" target="_blank" '.$clase.' >'.formatoMoneda($fila['REAL'.$th],pesos).'</a></th>';
+					$clase = "";
+					
+					if($fila['PORCENTAJE'.$th] >= 0) {$clase = "positivo";}
+					else { $clase = "negativo";	}
+					echo '<th class="ta_r '.$clase.'">'.$fila['PORCENTAJE'.$th].' %</th>';//columna %
+					$clase = "";
+					
+					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $fila['PPTO'.$th], PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($fila['PPTO'.$th]));
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($fila['PPTO'.$th], 0, ',', '.'));
-					number_format(1000.5, 2, '.', '');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, 1231312321);
+					//number_format(1000.5, 2, '.', '');
+					
+					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, 1231312321);
 					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
 					if($fila['PPTO'.$th] >= 0) 
 					{
@@ -2796,18 +2797,11 @@ function totalNivel($idNivel)
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
 					}	
-					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);									
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);									
 					$Letra++;
 					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $fila['REAL'.$th], PHPExcel_Cell_DataType::TYPE_NUMERIC);
-
-					//===============================
-					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($fila['REAL'.$th], 0, ',', '.'));
-					//===============================
-
-					//$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-
-					//=================================
-					/*
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($fila['REAL'.$th], 0, ',', '.'));
+					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
 					if($fila['REAL'.$th] >= 0) 
 					{
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivo);
@@ -2820,14 +2814,9 @@ function totalNivel($idNivel)
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
 					}
-					*/
-					//=================================
-
 					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);									
-					//$Letra++;
+					$Letra++;
 					
-					//================================
-					/*
 					if($fila['PORCENTAJE'.$th]  >= 0) 
 					{
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivo);
@@ -2840,87 +2829,74 @@ function totalNivel($idNivel)
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
 					}
-					*/
-					//==============================
-
 					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivo);
 					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
 					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-					
-					//============================
-					//$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, ROUND($fila['PORCENTAJE'.$th])." %");
-					//============================
-
-					//$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, ROUND($fila['PORCENTAJE'.$th])." %");
+					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
 					
 					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);									
-					//$Letra++;
+					$Letra++;
 					
-					$totalPPTO = array(null);
-					$lineaPPTO = 0;
-					$lineaTotalPPTO = 0;
-					$lineaTotalFinalPPTO = 0;
-					$sumaSegundoPPTO = array(null);
-
 					$sumaPPTO[$th] += $fila['PPTO'.$th];
-					//$sumaREAL[$th] += $fila['REAL'.$th];
-					///////$sumaPORCENTAJE[$th] += $fila['PORCENTAJE'.$th];
-					//$sumaPORCENTAJE[$th] = round($sumaREAL[$th]/$sumaPPTO[$th],2);
-					//$sumaACUMULADO[$th] += $fila['ACUMULADO'.$th];
+					$sumaREAL[$th] += $fila['REAL'.$th];
+					//$sumaPORCENTAJE[$th] += $fila['PORCENTAJE'.$th];
+					$sumaPORCENTAJE[$th] = round($sumaREAL[$th]/$sumaPPTO[$th],2);
+					$sumaACUMULADO[$th] += $fila['ACUMULADO'.$th];
 	
-					$totalPPTO[$th] += $fila['PPTO'.$th];
-					//$totalREAL[$th] += $fila['REAL'.$th]+2;
-					///////////$totalPORCENTAJE[$th] += $fila['PORCENTAJE'.$th]+3;
-					//$totalPORCENTAJE[$th] = round($totalREAL[$th]/$totalPPTO[$th],2);
-					//$totalACUMULADO[$th] += $fila['ACUMULADO'.$th]+4;
+					$totalPPTO[$th] += $fila['PPTO'.$th]+1;
+					$totalREAL[$th] += $fila['REAL'.$th]+2;
+					//$totalPORCENTAJE[$th] += $fila['PORCENTAJE'.$th]+3;
+					$totalPORCENTAJE[$th] = round($totalREAL[$th]/$totalPPTO[$th],2);
+					$totalACUMULADO[$th] += $fila['ACUMULADO'.$th]+4;
 					
 					$lineaPPTO += $fila['PPTO'.$th];
-					//$lineaREAL += $fila['REAL'.$th];
-					///////////echo $lineaREAL." AAA<br>";
-					//////////$lineaPORCENTAJE += $fila['PORCENTAJE'.$th];
-					//$lineaPORCENTAJE = round($lineaREAL /$lineaPPTO,2);
-					//$lineaACUMULADO += $fila['ACUMULADO'.$th];
+					$lineaREAL += $fila['REAL'.$th];
+					//echo $lineaREAL." AAA<br>";
+					//$lineaPORCENTAJE += $fila['PORCENTAJE'.$th];
+					$lineaPORCENTAJE = round($lineaREAL /$lineaPPTO,2);
+					$lineaACUMULADO += $fila['ACUMULADO'.$th];
 					
 					$lineaTotalPPTO += $fila['PPTO'.$th];
-					//$lineaTotalREAL += $fila['REAL'.$th];
-					///////////$lineaTotalPORCENTAJE += $fila['PORCENTAJE'.$th];
-					//$lineaTotalPORCENTAJE = round($lineaTotalREAL/$lineaTotalPPTO,2);
-					//$lineaTotalACUMULADO += $fila['ACUMULADO'.$th];
+					$lineaTotalREAL += $fila['REAL'.$th];
+					//$lineaTotalPORCENTAJE += $fila['PORCENTAJE'.$th];
+					$lineaTotalPORCENTAJE = round($lineaTotalREAL/$lineaTotalPPTO,2);
+					$lineaTotalACUMULADO += $fila['ACUMULADO'.$th];
 					
 					$lineaTotalFinalPPTO += $fila['PPTO'.$th];
-					//$lineaTotalFinalREAL += $fila['REAL'.$th];
-					/////////////$lineaTotalFinalPORCENTAJE += $fila['PORCENTAJE'.$th];
-					//$lineaTotalFinalPORCENTAJE = round($lineaTotalFinalREAL/$lineaTotalFinalPPTO,2);
-					//$lineaTotalFinalACUMULADO += $fila['ACUMULADO'.$th];
+					$lineaTotalFinalREAL += $fila['REAL'.$th];
+					//$lineaTotalFinalPORCENTAJE += $fila['PORCENTAJE'.$th];
+					$lineaTotalFinalPORCENTAJE = round($lineaTotalFinalREAL/$lineaTotalFinalPPTO,2);
+					$lineaTotalFinalACUMULADO += $fila['ACUMULADO'.$th];
 					
 					$sumaSegundoPPTO[$th];
-					//$sumaSegundoReal[$th];
-					//$sumaSegundoPorcentaje[$th];
-					//$sumaSegundoAcumulado[$th];	
+					$sumaSegundoReal[$th];
+					$sumaSegundoPorcentaje[$th];
+					$sumaSegundoAcumulado[$th];	
 					
 			}
 			
 			if($lineaPPTO >= 0) {$clase = "positivo";}
 			else { $clase = "negativo";	}
-			echo '<th class="ta_r '.$clase.'">'.formatoMoneda($lineaPPTO,'pesos').'</th>';
+			echo '<th class="ta_r '.$clase.'">'.formatoMoneda($lineaPPTO,pesos).'</th>';
 			$clase = "";
 			
-			// if($lineaREAL >= 0) {$clase = "positivo";}
-			// else { $clase = "negativo";	}
-			// echo '<th class="ta_r '.$clase.'">'.formatoMoneda($lineaREAL,pesos).'</th>';
-			// $clase = "";
+			if($lineaREAL >= 0) {$clase = "positivo";}
+			else { $clase = "negativo";	}
+			echo '<th class="ta_r '.$clase.'">'.formatoMoneda($lineaREAL,pesos).'</th>';
+			$clase = "";
 			
-			// if($lineaPORCENTAJE >= 0) {$clase = "positivo";}
-			// else { $clase = "negativo";	}
-			// echo '<th class="ta_r '.$clase.'">'.$lineaPORCENTAJE.' %</th>';
-			// $clase = "";
+			if($lineaPORCENTAJE >= 0) {$clase = "positivo";}
+			else { $clase = "negativo";	}
+			echo '<th class="ta_r '.$clase.'">'.$lineaPORCENTAJE.' %</th>';
+			$clase = "";
 			//echo '<th class="ta_r">'.formatoMoneda($lineaACUMULADO,pesos).'</th>';
 			echo '</tr>';
 			
 			//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $lineaPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($lineaPPTO, 0, ',', '.'));
 			$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-			 //$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelRight);
+			//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelRight);
 			
 			if($lineaPPTO <> 1234567) 
 			{
@@ -2940,45 +2916,45 @@ function totalNivel($idNivel)
 			$Letra++;
 
 			//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $lineaREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-			// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($lineaREAL, 0, ',', '.'));
-			// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-			// if($lineaREAL <> 12345678) 
-			// {
-			// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivo);
-			// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-			// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-			// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
-			// }
-			// else 
-			// { 
-			// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativo);
-			// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-			// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-			// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
-			// }
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($lineaREAL, 0, ',', '.'));
+			$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+			if($lineaREAL <> 12345678) 
+			{
+				$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivo);
+				$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+				$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+				$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
+			}
+			else 
+			{ 
+				$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativo);
+				$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+				$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+				$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
+			}
 			//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-			//$Letra++;
+			$Letra++;
 			
 			
 			//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $lineaPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-			// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($lineaPORCENTAJE), 0, ',', '.')." %");
-			// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-			// if($lineaPORCENTAJE <> 12345235) 
-			// {
-			// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivo);
-			// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-			// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-			// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
-			// }
-			// else 
-			// { 
-			// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativo);
-			// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-			// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-			// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
-			// }
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($lineaPORCENTAJE), 0, ',', '.')." %");
+			$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+			if($lineaPORCENTAJE <> 12345235) 
+			{
+				$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivo);
+				$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+				$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+				$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
+			}
+			else 
+			{ 
+				$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativo);
+				$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+				$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+				$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
+			}
 			//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-			//$Letra++;
+			$Letra++;
 			$keyExcel++;
 			
 			
@@ -3013,19 +2989,19 @@ function totalNivel($idNivel)
 				{
 						if($sumaPPTO[$th] >= 0) {$clase = "positivoTotal";}
 						else { $clase = "negativoTotal";	}
-						echo '<th class="ta_r '.$clase.'">'.formatoMoneda($sumaPPTO[$th],'pesos').'</th>';
+						echo '<th class="ta_r '.$clase.'">'.formatoMoneda($sumaPPTO[$th],pesos).'</th>';
 						$clase = "";
 						
-						// if($sumaREAL[$th] >= 0) {$clase = "positivoTotal";}
-						// else { $clase = "negativoTotal";	}
-						// echo '<th class="ta_r '.$clase.'">'.formatoMoneda($sumaREAL[$th],pesos).'</th>';
-						// $clase = "";
+						if($sumaREAL[$th] >= 0) {$clase = "positivoTotal";}
+						else { $clase = "negativoTotal";	}
+						echo '<th class="ta_r '.$clase.'">'.formatoMoneda($sumaREAL[$th],pesos).'</th>';
+						$clase = "";
 						
 						
-						// if($sumaPORCENTAJE[$th] >= 0) {$clase = "positivoTotal";}
-						// else { $clase = "negativoTotal";	}
-						// echo '<th class="ta_r '.$clase.'">'.$sumaPORCENTAJE[$th].' %</th>';
-						// $clase = "";
+						if($sumaPORCENTAJE[$th] >= 0) {$clase = "positivoTotal";}
+						else { $clase = "negativoTotal";	}
+						echo '<th class="ta_r '.$clase.'">'.$sumaPORCENTAJE[$th].' %</th>';
+						$clase = "";
 
 						//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $sumaPPTO[$th], PHPExcel_Cell_DataType::TYPE_NUMERIC);
 						$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($sumaPPTO[$th], 0, ',', '.'));
@@ -3048,97 +3024,98 @@ function totalNivel($idNivel)
 						//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 						$Letra++;
 						//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $sumaREAL[$th], PHPExcel_Cell_DataType::TYPE_NUMERIC);
-						//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($sumaREAL[$th], 0, ',', '.'));
-						// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-						// if($sumaREAL[$th] <> 12311123) 
-						// {
-						// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-						// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-						// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-						// }
-						// else 
-						// { 
-						// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-						// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-						// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-						// }
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($sumaREAL[$th], 0, ',', '.'));
+						$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+						if($sumaREAL[$th] <> 12311123) 
+						{
+							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+						}
+						else 
+						{ 
+							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+						}
 						//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-						///$Letra++;
+						$Letra++;
 						
 						
 						//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $sumaPORCENTAJE[$th], PHPExcel_Cell_DataType::TYPE_NUMERIC);
-						// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($sumaPORCENTAJE[$th]), 0, ',', '.')." %");
-						// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-						// if($sumaPORCENTAJE[$th] <> 12311123) 
-						// {
-						// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-						// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-						// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-						// }
-						// else 
-						// { 
-						// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-						// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-						// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-						// }
+						$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($sumaPORCENTAJE[$th]), 0, ',', '.')." %");
+						$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+						if($sumaPORCENTAJE[$th] <> 12311123) 
+						{
+							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+						}
+						else 
+						{ 
+							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+						}
 						//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-						//$Letra++;
-						
+						$Letra++;
 						if($banderaSumar == 1)
 						{
 							//echo "SUMO EL 1 <br>";
 							$primerNivelPPTO[$th] += $sumaPPTO[$th];
-							//$primerNivelREAL[$th] += $sumaREAL[$th];
+							$primerNivelREAL[$th] += $sumaREAL[$th];
 							//$primerNivelPORCENTAJE[$th] += $sumaPORCENTAJE[$th];
-							//$primerNivelPORCENTAJE[$th] = round($primerNivelREAL[$th]/$primerNivelPPTO[$th],2);
-							//$primerNivelACUMULADO[$th] += $sumaACUMULADO[$th];
+							$primerNivelPORCENTAJE[$th] = round($primerNivelREAL[$th]/$primerNivelPPTO[$th],2);
+							$primerNivelACUMULADO[$th] += $sumaACUMULADO[$th];
 							
 						}
 						if($banderaSumar == 2)
 						{
 							//echo "SUMO EL 2 <br>";
 							$segundoNivelPPTO[$th] += $sumaPPTO[$th];
-							//$segundoNivelREAL[$th] += $sumaREAL[$th];
-							//////////$segundoNivelPORCENTAJE[$th] += $sumaPORCENTAJE[$th];
-							//$segundoNivelPORCENTAJE[$th] = round($segundoNivelREAL[$th]/$segundoNivelPPTO[$th],2);
-							//$segundoNivelACUMULADO[$th] += $sumaACUMULADO[$th];
+							$segundoNivelREAL[$th] += $sumaREAL[$th];
+							//$segundoNivelPORCENTAJE[$th] += $sumaPORCENTAJE[$th];
+							$segundoNivelPORCENTAJE[$th] = round($segundoNivelREAL[$th]/$segundoNivelPPTO[$th],2);
+							$segundoNivelACUMULADO[$th] += $sumaACUMULADO[$th];
 						}
 						if($banderaSumar == 3)
 						{
 							//echo "SUMO EL 3 <br>";
 							$tercerNivelPPTO[$th] += $sumaPPTO[$th];
-							//$tercerNivelREAL[$th] += $sumaREAL[$th];
-							/////////$tercerNivelPORCENTAJE[$th] += $sumaPORCENTAJE[$th];
-							//tercerNivelPORCENTAJE[$th] = round($tercerNivelREAL[$th]/$tercerNivelPPTO[$th],2);
-							//$tercerNivelACUMULADO[$th] += $sumaACUMULADO[$th];
+							$tercerNivelREAL[$th] += $sumaREAL[$th];
+							//$tercerNivelPORCENTAJE[$th] += $sumaPORCENTAJE[$th];
+							$tercerNivelPORCENTAJE[$th] = round($tercerNivelREAL[$th]/$tercerNivelPPTO[$th],2);
+							$tercerNivelACUMULADO[$th] += $sumaACUMULADO[$th];
 						}
 						if($banderaSumar == 4)
 						{
 							//echo "SUMO EL 4 <br>";
 							$cuartoNivelPPTO[$th] += $sumaPPTO[$th];
-							//$cuartoNivelREAL[$th] += $sumaREAL[$th];
-							//////////$cuartoNivelPORCENTAJE[$th] += $sumaPORCENTAJE[$th];
-							// $cuartoNivelPORCENTAJE[$th] = round($cuartoNivelREAL[$th]/$cuartoNivelPPTO[$th],2);
-							// $cuartoNivelACUMULADO[$th] += $sumaACUMULADO[$th];
+							$cuartoNivelREAL[$th] += $sumaREAL[$th];
+							//$cuartoNivelPORCENTAJE[$th] += $sumaPORCENTAJE[$th];
+							$cuartoNivelPORCENTAJE[$th] = round($cuartoNivelREAL[$th]/$cuartoNivelPPTO[$th],2);
+							$cuartoNivelACUMULADO[$th] += $sumaACUMULADO[$th];
 							//print_r($cuartoNivelREAL);
+							
+							
 						}
 						if($banderaSumar == 5)
 						{
 							//echo "SUMO EL 5 <br>";
 							$quintoNivelPPTO[$th] += $sumaPPTO[$th];
-							// $quintoNivelREAL[$th] += $sumaREAL[$th];
-							/////////$quintoNivelPORCENTAJE[$th] += $sumaPORCENTAJE[$th];
-							// $quintoNivelPORCENTAJE[$th] = round($quintoNivelREAL[$th]/$quintoNivelPPTO[$th],2);
-							// $quintoNivelACUMULADO[$th] += $sumaACUMULADO[$th];
+							$quintoNivelREAL[$th] += $sumaREAL[$th];
+							//$quintoNivelPORCENTAJE[$th] += $sumaPORCENTAJE[$th];
+							$quintoNivelPORCENTAJE[$th] = round($quintoNivelREAL[$th]/$quintoNivelPPTO[$th],2);
+							$quintoNivelACUMULADO[$th] += $sumaACUMULADO[$th];
 						}
 						if($banderaSumar == 6)
 						{
 							//echo "SUMO EL 6 <br>";
 							$sextoNivelPPTO[$th] += $sumaPPTO[$th];
-							// $sextoNivelREAL[$th] += $sumaREAL[$th];
-							////////$sextoNivelPORCENTAJE[$th] += $sumaPORCENTAJE[$th];
-							// $sextoNivelPORCENTAJE[$th] = round($sextoNivelREAL[$th]/$sextoNivelPPTO[$th],2);
-							// $sextoNivelACUMULADO[$th] += $sumaACUMULADO[$th];
+							$sextoNivelREAL[$th] += $sumaREAL[$th];
+							//$sextoNivelPORCENTAJE[$th] += $sumaPORCENTAJE[$th];
+							$sextoNivelPORCENTAJE[$th] = round($sextoNivelREAL[$th]/$sextoNivelPPTO[$th],2);
+							$sextoNivelACUMULADO[$th] += $sumaACUMULADO[$th];
 							//echo array_sum($sextoNivelREAL);
 							//echo "<br>";
 						}
@@ -3146,21 +3123,19 @@ function totalNivel($idNivel)
 				
 				if($lineaTotalPPTO >= 0) {$clase = "positivoTotal";}
 				else { $clase = "negativoTotal";	}
-				echo '<th class="ta_r '.$clase.'">'.formatoMoneda($lineaTotalPPTO,'pesos').'</th>';
+				echo '<th class="ta_r '.$clase.'">'.formatoMoneda($lineaTotalPPTO,pesos).'</th>';
 				$clase = "";
 				
-				// if($lineaTotalREAL >= 0) {$clase = "positivoTotal";}
-				// else { $clase = "negativoTotal";	}
-				// echo '<th class="ta_r">'.formatoMoneda($lineaTotalREAL,pesos).'</th>';
-				// $clase = "";
+				if($lineaTotalPPTO >= 0) {$clase = "positivoTotal";}
+				else { $clase = "negativoTotal";	}
+				echo '<th class="ta_r">'.formatoMoneda($lineaTotalREAL,pesos).'</th>';
+				$clase = "";
 				
-				// if($lineaTotalPORCENTAJE >= 0) {$clase = "positivoTotal";}
-				// else { $clase = "negativoTotal";	}
-				// echo '<th class="ta_r">'.$lineaTotalPORCENTAJE.' %</th>';
-				// $clase = "";
-
-				//////echo '<th class="ta_r">'.formatoMoneda($lineaTotalACUMULADO,pesos).'</th>';
-				
+				if($lineaTotalPORCENTAJE >= 0) {$clase = "positivoTotal";}
+				else { $clase = "negativoTotal";	}
+				echo '<th class="ta_r">'.$lineaTotalPORCENTAJE.' %</th>';
+				$clase = "";
+				//echo '<th class="ta_r">'.formatoMoneda($lineaTotalACUMULADO,pesos).'</th>';
 				echo '</tr>';
 				echo '<tr height="10"></tr>';
 				echo '<tr height="10"></tr>';
@@ -3185,43 +3160,43 @@ function totalNivel($idNivel)
 				//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 				$Letra++;
 				//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $lineaTotalREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-				// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($lineaTotalREAL, 0, ',', '.'));
-				// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-				// if($lineaTotalREAL <> 12311123) 
-				// {
-				// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-				// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-				// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-				// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
-				// }
-				// else 
-				// { 
-				// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-				// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-				// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-				// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
-				// }
-				/////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-				//$Letra++;
-				/////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $lineaTotalPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-				// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($lineaTotalPORCENTAJE), 0, ',', '.')." %");
-				// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-				// if($lineaTotalPORCENTAJE <> 12311123) 
-				// {
-				// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-				// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-				// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-				// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
-				// }
-				// else 
-				// { 
-				// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-				// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-				// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
-				// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
-				// }
-				//////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-				//$Letra++;
+				$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($lineaTotalREAL, 0, ',', '.'));
+				$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+				if($lineaTotalREAL <> 12311123) 
+				{
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
+				}
+				else 
+				{ 
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
+				}
+				//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+				$Letra++;
+				//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $lineaTotalPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+				$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($lineaTotalPORCENTAJE), 0, ',', '.')." %");
+				$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+				if($lineaTotalPORCENTAJE <> 12311123) 
+				{
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
+				}
+				else 
+				{ 
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeIzqDer);
+					$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
+				}
+				//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+				$Letra++;
 				$keyExcel++;
 				$keyExcelEspacio = $keyExcel;
 				$keyExcel++;
@@ -3231,6 +3206,9 @@ function totalNivel($idNivel)
 				//echo $banderaSumar."<--- bandera SUMAR <br>";
 				if($banderaSumar == 1)
 				{
+					//print_r($arrayNiveles);
+					//echo $banderaSumar."<-- banderaSUMAR<br>br>";
+						//echo " AAA ".$Letra.$keyExcelEspacio."<br>";
 						echo '<tr class="stit ta_c">';
 						echo '<th class="ta_l">'.nombreNivel($banderaEERRSuma).'</th>';
 						$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, nombreNivel($banderaEERRSuma));
@@ -3242,11 +3220,10 @@ function totalNivel($idNivel)
 						$Letra++;
 						for ($k=0;$k<$contadorCC;$k++)
 						{
-							echo '<th class="ta_c">PPTO</th>';
-								  /*echo '<th class="ta_c">PPTO</th>
+							echo '<th class="ta_c">PPTO</th>
 								  <th class="ta_c">REAL</th>
 								  <th class="ta_c">%</th>
-								  ';*/								  
+								  ';								  
 							//<th class="ta_c">ACUM</th>
 							$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "");
 							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
@@ -3275,12 +3252,11 @@ function totalNivel($idNivel)
 							
 						}
 						
-						echo '<th class="ta_c">PPTO</th>';
-							/*echo '
+						echo '
 							<th class="ta_c">PPTO</th>
 							<th class="ta_c">REAL</th>
 							<th class="ta_c">%</th>
-							';*/
+							';
 							//<th class="ta_c">ACUM</th>
 						echo '</tr>';
 						
@@ -3330,46 +3306,49 @@ function totalNivel($idNivel)
 					$Letra++;
 					for($th=0;$th<$contadorCC;$th++)
 					{
+							//$totalSegundoPPTO = (abs($primerNivelPPTO[$th]) - abs($segundoNivelPPTO[$th]));
+							//$totalSegundoREAL = (abs($primerNivelREAL[$th]) - abs($segundoNivelREAL[$th]));
+							//$totalSegundoPORCENTAJE = (abs($primerNivelPORCENTAJE[$th]) - abs($segundoNivelPORCENTAJE[$th]));
+							//$totalSegundoACUMULADO = (abs($primerNivelACUMULADO[$th]) - abs($segundoNivelACUMULADO[$th]));
 							
 							$totalSegundoPPTO = ($primerNivelPPTO[$th] - $segundoNivelPPTO[$th]);
-							//$totalSegundoREAL = ($primerNivelREAL[$th] - $segundoNivelREAL[$th]);
-							//$totalSegundoPORCENTAJE = ($primerNivelPORCENTAJE[$th] - $segundoNivelPORCENTAJE[$th]);
-							//$totalSegundoACUMULADO = ($primerNivelACUMULADO[$th] - $segundoNivelACUMULADO[$th]);
+							$totalSegundoREAL = ($primerNivelREAL[$th] - $segundoNivelREAL[$th]);
+							$totalSegundoPORCENTAJE = ($primerNivelPORCENTAJE[$th] - $segundoNivelPORCENTAJE[$th]);
+							$totalSegundoACUMULADO = ($primerNivelACUMULADO[$th] - $segundoNivelACUMULADO[$th]);
 							
 							
 							
 							if($totalSegundoPPTO >= 0) {$clase = "positivoTotal";}
 							else { $clase = "negativoTotal";	}
-							echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalSegundoPPTO,'pesos').'</th>';
+							echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalSegundoPPTO,pesos).'</th>';
 							$clase = "";
 							
-							// if($totalSegundoREAL >= 0) {$clase = "positivoTotal";}
-							// else { $clase = "negativoTotal";	}
-							// echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalSegundoREAL,pesos).'</th>';
-							// $clase = "";
+							if($totalSegundoREAL >= 0) {$clase = "positivoTotal";}
+							else { $clase = "negativoTotal";	}
+							echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalSegundoREAL,pesos).'</th>';
+							$clase = "";
 							
-							// if($totalSegundoPORCENTAJE >= -10524654) {$clase = "positivoTotal";}
-							// else { $clase = "negativoTotal";	}
+							if($totalSegundoPORCENTAJE >= -10524654) {$clase = "positivoTotal";}
+							else { $clase = "negativoTotal";	}
 							
-							///////$totalSegundoPORCENTAJE = round((($totalSegundoREAL / $totalSegundoPPTO*100)),2)-100;
-							///////$totalSegundoPORCENTAJE = round((($totalSegundoREAL / $totalSegundoPPTO*100)),2);
-							//if($totalSegundoPPTO > $totalSegundoREAL)
-							//{
-								///////$totalSegundoPORCENTAJE = ($totalSegundoPORCENTAJE - 100);
-								///////$totalSegundoPORCENTAJE = round((($totalSegundoREAL / $totalSegundoPPTO*100)),2)-100;
-								//$totalSegundoPORCENTAJE = round((($totalSegundoREAL / $totalSegundoPPTO)),2);
-							//}
-							// else
-							// {
-								/////$totalSegundoPORCENTAJE = round((($totalSegundoREAL / $totalSegundoPPTO*100)),2)-100;
-								//$totalSegundoPORCENTAJE = round((($totalSegundoREAL / $totalSegundoPPTO)),2);
-							//}
-							//echo '<th class="ta_r '.$clase.'">'.$totalSegundoPORCENTAJE.' %</th>';
-							//$clase = "";
+							//$totalSegundoPORCENTAJE = round((($totalSegundoREAL / $totalSegundoPPTO*100)),2)-100;
+							//$totalSegundoPORCENTAJE = round((($totalSegundoREAL / $totalSegundoPPTO*100)),2);
+							if($totalSegundoPPTO > $totalSegundoREAL)
+							{
+								//$totalSegundoPORCENTAJE = ($totalSegundoPORCENTAJE - 100);
+								//$totalSegundoPORCENTAJE = round((($totalSegundoREAL / $totalSegundoPPTO*100)),2)-100;
+								$totalSegundoPORCENTAJE = round((($totalSegundoREAL / $totalSegundoPPTO)),2);
+							}
+							else
+							{
+								//$totalSegundoPORCENTAJE = round((($totalSegundoREAL / $totalSegundoPPTO*100)),2)-100;
+								$totalSegundoPORCENTAJE = round((($totalSegundoREAL / $totalSegundoPPTO)),2);
+							}
+							echo '<th class="ta_r '.$clase.'">'.$totalSegundoPORCENTAJE.' %</th>';
+							$clase = "";
 							//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalSegundoPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-							//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($totalSegundoPPTO, 0, ',', '.'));
-							//$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-
+							$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($totalSegundoPPTO, 0, ',', '.'));
+							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
 							if($totalSegundoPPTO >= 0) 
 							{
 								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
@@ -3384,70 +3363,67 @@ function totalNivel($idNivel)
 								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
 								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
 							}
-							$segundaLineaPPTO = 0;
-							//////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+							//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 							$Letra++;
-							/////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalSegundoREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-							// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($totalSegundoREAL, 0, ',', '.'));
-							// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-							
-							// if($totalSegundoREAL >= 0) 
-							// {
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							// else 
-							// { 
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							///////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-							//$Letra++;
+							//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalSegundoREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($totalSegundoREAL, 0, ',', '.'));
+							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+							if($totalSegundoREAL >= 0) 
+							{
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							else 
+							{ 
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+							$Letra++;
 							//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalSegundoPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-							// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($totalSegundoPORCENTAJE), 0, ',', '.')." %");
-							// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-							
-							// if($totalSegundoPORCENTAJE >= 0) 
-							// {
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							// else 
-							// { 
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							////////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-							//$Letra++;							
+							$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($totalSegundoPORCENTAJE), 0, ',', '.')." %");
+							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+							if($totalSegundoPORCENTAJE >= 0) 
+							{
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							else 
+							{ 
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+							$Letra++;							
 							$segundaLineaPPTO += $totalSegundoPPTO;
-							//$segundaLineaREAL += $totalSegundoREAL;
-							/////////$segundaLineaPORCENTAJE += $totalSegundoPORCENTAJE;
-							//$segundaLineaPORCENTAJE = round($segundaLineaREAL/$segundaLineaPPTO,2);
-							//$segundaLineaACUMULADO += $totalSegundoACUMULADO;
+							$segundaLineaREAL += $totalSegundoREAL;
+							//$segundaLineaPORCENTAJE += $totalSegundoPORCENTAJE;
+							$segundaLineaPORCENTAJE = round($segundaLineaREAL/$segundaLineaPPTO,2);
+							$segundaLineaACUMULADO += $totalSegundoACUMULADO;
 					}
 					
 					if($segundaLineaPPTO >= 0) {$clase = "positivoTotal";}
 					else { $clase = "negativoTotal";	}
-					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($segundaLineaPPTO,'pesos').'</th>';
+					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($segundaLineaPPTO,pesos).'</th>';
 					$clase = "";
 					
-					// if($segundaLineaREAL >= 0) {$clase = "positivoTotal";}
-					// else { $clase = "negativoTotal";	}
-					// echo '<th class="ta_r '.$clase.'">'.formatoMoneda($segundaLineaREAL,pesos).'</th>';
-					// $clase = "";
+					if($segundaLineaREAL >= 0) {$clase = "positivoTotal";}
+					else { $clase = "negativoTotal";	}
+					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($segundaLineaREAL,pesos).'</th>';
+					$clase = "";
 					
-					// if($segundaLineaPORCENTAJE >= 0) {$clase = "positivoTotal";}
-					// else { $clase = "negativoTotal";	}
-					// echo '<th class="ta_r '.$clase.'">'.$segundaLineaPORCENTAJE.' %</th>';
-					// $clase = "";
+					if($segundaLineaPORCENTAJE >= 0) {$clase = "positivoTotal";}
+					else { $clase = "negativoTotal";	}
+					echo '<th class="ta_r '.$clase.'">'.$segundaLineaPORCENTAJE.' %</th>';
+					$clase = "";
 				
 					echo '</tr>';
 					echo '<tr height="10"></tr>';
@@ -3472,50 +3448,50 @@ function totalNivel($idNivel)
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
 					}
-					/////////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 					$Letra++;
-					////////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $segundaLineaREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-					// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($segundaLineaREAL, 0, ',', '.'));
-					// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-					// if($segundaLineaREAL >= 0) 
-					// {
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					// else 
-					// { 
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					/////////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-					//$Letra++;
-					/////////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $segundaLineaPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-					// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($segundaLineaPORCENTAJE), 0, ',', '.')." %");
-					// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-					// if($segundaLineaPORCENTAJE >= 0) 
-					// {
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					// else 
-					// { 
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					////////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-					//$Letra++;
+					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $segundaLineaREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($segundaLineaREAL, 0, ',', '.'));
+					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+					if($segundaLineaREAL >= 0) 
+					{
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					else 
+					{ 
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+					$Letra++;
+					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $segundaLineaPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($segundaLineaPORCENTAJE), 0, ',', '.')." %");
+					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+					if($segundaLineaPORCENTAJE >= 0) 
+					{
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					else 
+					{ 
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+					$Letra++;
 					$keyExcel++;
 					$keyExcelEspacio = $keyExcel;
 					$keyExcel++;
@@ -3538,13 +3514,10 @@ function totalNivel($idNivel)
 						$Letra++;						
 						for ($k=0;$k<$contadorCC;$k++)
 						{
-							echo '<th class="ta_c">PPTO</th>';
-								  /*
-								  echo '<th class="ta_c">PPTO</th>
+							echo '<th class="ta_c">PPTO</th>
 								  <th class="ta_c">REAL</th>
 								  <th class="ta_c">%</th>
 								  ';
-								  */
 							//<th class="ta_c">ACUM</th>
 							$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "");
 							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
@@ -3568,13 +3541,13 @@ function totalNivel($idNivel)
 							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
 							$Letra++;
 						}
-						echo '<th class="ta_c">PPTO</th>';
-							/*echo '
+						echo '
 							<th class="ta_c">PPTO</th>
 							<th class="ta_c">REAL</th>
 							<th class="ta_c">%</th>
-							';*/
+							';
 						echo '</tr>';
+						
 						
 						$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "");
 						$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
@@ -3620,11 +3593,10 @@ function totalNivel($idNivel)
 						$Letra++;
 						for ($k=0;$k<$contadorCC;$k++)
 						{
-							echo '<th class="ta_c">PPTO</th>';
-								  /*echo '<th class="ta_c">PPTO</th>
+							echo '<th class="ta_c">PPTO</th>
 								  <th class="ta_c">REAL</th>
 								  <th class="ta_c">%</th>
-								  ';*/
+								  ';
 								  //<th class="ta_c">ACUM</th>
 							$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "");
 							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
@@ -3648,12 +3620,11 @@ function totalNivel($idNivel)
 							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
 							$Letra++;
 						}
-						echo '<th class="ta_c">PPTO</th>';
-							/*echo '
+						echo '
 							<th class="ta_c">PPTO</th>
 							<th class="ta_c">REAL</th>
 							<th class="ta_c">%</th>
-							';*/
+							';
 							//<th class="ta_c">ACUM</th>
 						echo '</tr>';
 						$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "");
@@ -3703,28 +3674,28 @@ function totalNivel($idNivel)
 						
 						
 							$totalCuartoPPTO = (abs($primerNivelPPTO[$th]) - abs($segundoNivelPPTO[$th]) - abs($tercerNivelPPTO[$th]) - abs($cuartoNivelPPTO[$th]));
-							//$totalCuartoREAL = ($primerNivelREAL[$th] - abs($segundoNivelREAL[$th]) - abs($tercerNivelREAL[$th]) - abs($cuartoNivelREAL[$th]));
-							////////$totalCuartoPORCENTAJE = (abs($primerNivelPORCENTAJE[$th]) - abs($segundoNivelPORCENTAJE[$th]) - abs($tercerNivelPORCENTAJE[$th]) - abs($cuartoNivelPORCENTAJE[$th]));
-							//$totalCuartoPORCENTAJE = ROUND(($totalCuartoREAL/$totalCuartoPPTO),2);
-							//$totalCuartoACUMULADO = (abs($primerNivelACUMULADO[$th]) - abs($segundoNivelACUMULADO[$th]) - abs($tercerNivelACUMULADO[$th]) - abs($cuartoNivelACUMULADO[$th]));
+							$totalCuartoREAL = ($primerNivelREAL[$th] - abs($segundoNivelREAL[$th]) - abs($tercerNivelREAL[$th]) - abs($cuartoNivelREAL[$th]));
+							//$totalCuartoPORCENTAJE = (abs($primerNivelPORCENTAJE[$th]) - abs($segundoNivelPORCENTAJE[$th]) - abs($tercerNivelPORCENTAJE[$th]) - abs($cuartoNivelPORCENTAJE[$th]));
+							$totalCuartoPORCENTAJE = ROUND(($totalCuartoREAL/$totalCuartoPPTO),2);
+							$totalCuartoACUMULADO = (abs($primerNivelACUMULADO[$th]) - abs($segundoNivelACUMULADO[$th]) - abs($tercerNivelACUMULADO[$th]) - abs($cuartoNivelACUMULADO[$th]));
 							
 							if($totalCuartoPPTO >= 0) {$clase = "positivoTotal";}
 							else { $clase = "negativoTotal";	}
-							echo '<th class="ta_r '.$clase.' ">'.formatoMoneda($totalCuartoPPTO,'pesos').'</th>';
+							echo '<th class="ta_r '.$clase.' ">'.formatoMoneda($totalCuartoPPTO,pesos).'</th>';
 							$clase = "";
 							
 							
-							// if($totalCuartoREAL >= 0) {$clase = "positivoTotal";}
-							// else { $clase = "negativoTotal";	}
-							// echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalCuartoREAL,pesos).'</th>';
-							// $clase = "";
+							if($totalCuartoREAL >= 0) {$clase = "positivoTotal";}
+							else { $clase = "negativoTotal";	}
+							echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalCuartoREAL,pesos).'</th>';
+							$clase = "";
 							
-							// if($totalCuartoPORCENTAJE >= 0) {$clase = "positivoTotal";}
-							// else { $clase = "negativoTotal";	}
-							// echo '<th class="ta_r '.$clase.'">'.$totalCuartoPORCENTAJE.' %</th>';
-							// $clase = "";
+							if($totalCuartoPORCENTAJE >= 0) {$clase = "positivoTotal";}
+							else { $clase = "negativoTotal";	}
+							echo '<th class="ta_r '.$clase.'">'.$totalCuartoPORCENTAJE.' %</th>';
+							$clase = "";
 							
-							////////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalCuartoPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalCuartoPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
 							$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($totalCuartoPPTO, 0, ',', '.'));
 							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
 							if($totalCuartoPPTO >= 0) 
@@ -3741,75 +3712,74 @@ function totalNivel($idNivel)
 								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
 								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
 							}
-							//////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+							//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 							$Letra++;
-							$cuartoLineaPPTO = 0;
-							//////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalCuartoREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalCuartoREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
 							//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($totalCuartoREAL, 0, ',', '.'));
-							// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($totalCuartoREAL, 0, ',', '.')." ");
-							// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-							// if($totalCuartoREAL >= 0) 
-							// {
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							// else 
-							// { 
-								//////formatoMoneda
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							/////////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-							//$Letra++;
-							// $objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, ROUND($totalCuartoPORCENTAJE)."%");
-							// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-							// if($totalCuartoPORCENTAJE >= 0) 
-							// {
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							// else 
-							// { 
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							//////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-							//$Letra++;
+							$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($totalCuartoREAL, 0, ',', '.')." ");
+							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+							if($totalCuartoREAL >= 0) 
+							{
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							else 
+							{ 
+						//formatoMoneda
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+							$Letra++;
+							$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, ROUND($totalCuartoPORCENTAJE)."%");
+							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+							if($totalCuartoPORCENTAJE >= 0) 
+							{
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							else 
+							{ 
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+							$Letra++;
 							$cuartoLineaPPTO += $totalCuartoPPTO;
-							//$cuartoLineaREAL += $totalCuartoREAL;
-							//////////$cuartoLineaPORCENTAJE += $totalCuartoPORCENTAJE;
-							//$cuartoLineaPORCENTAJE = round($cuartoLineaREAL/$cuartoLineaPPTO,2);
-							//$cuartoLineaACUMULADO += $totalCuartoACUMULADO;
+							$cuartoLineaREAL += $totalCuartoREAL;
+							//$cuartoLineaPORCENTAJE += $totalCuartoPORCENTAJE;
+							$cuartoLineaPORCENTAJE = round($cuartoLineaREAL/$cuartoLineaPPTO,2);
+							$cuartoLineaACUMULADO += $totalCuartoACUMULADO;
 					}
 					
 					if($cuartoLineaPPTO >= 0) {$clase = "positivoTotal";}
 					else { $clase = "negativoTotal";	}
-					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($cuartoLineaPPTO,'pesos').'</th>';
+					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($cuartoLineaPPTO,pesos).'</th>';
 					$clase = "";
 					
-					// if($cuartoLineaREAL >= 0) {$clase = "positivoTotal";}
-					// else { $clase = "negativoTotal";	}
-					// echo '<th class="ta_r '.$clase.'">'.formatoMoneda($cuartoLineaREAL,pesos).'</th>';
-					// $clase = "";
+					if($cuartoLineaREAL >= 0) {$clase = "positivoTotal";}
+					else { $clase = "negativoTotal";	}
+					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($cuartoLineaREAL,pesos).'</th>';
+					$clase = "";
 					
-					// if($cuartoLineaPORCENTAJE >= 0) {$clase = "positivoTotal";}
-					// else { $clase = "negativoTotal";	}
-					// echo '<th class="ta_r '.$clase.'">'.$cuartoLineaPORCENTAJE.' %</th>';
-					// $clase = "";
+					if($cuartoLineaPORCENTAJE >= 0) {$clase = "positivoTotal";}
+					else { $clase = "negativoTotal";	}
+					echo '<th class="ta_r '.$clase.'">'.$cuartoLineaPORCENTAJE.' %</th>';
+					$clase = "";
 					
 					echo '</tr>';
 					echo '<tr height="10"></tr>';
 					echo '<tr height="10"></tr>';	
 					
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $cuartoLineaPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $cuartoLineaPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($cuartoLineaPPTO, 0, ',', '.'));
 					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
 					if($cuartoLineaPPTO >= 0) 
@@ -3828,50 +3798,50 @@ function totalNivel($idNivel)
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
 					}
-					///////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 					$Letra++;
-					// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $cuartoLineaREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-					// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($cuartoLineaREAL, 0, ',', '.'));
-					// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-					// if($cuartoLineaREAL >= 0) 
-					// {
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					// else 
-					// { 
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					///////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-					//$Letra++;
-					// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $cuartoLineaPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-					// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($cuartoLineaPORCENTAJE), 0, ',', '.')." %");
-					// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-					// if($cuartoLineaPORCENTAJE >= 0) 
-					// {
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					// else 
-					// { 
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					////////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-					//$Letra++;
+					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $cuartoLineaREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($cuartoLineaREAL, 0, ',', '.'));
+					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+					if($cuartoLineaREAL >= 0) 
+					{
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					else 
+					{ 
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+					$Letra++;
+					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $cuartoLineaPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($cuartoLineaPORCENTAJE), 0, ',', '.')." %");
+					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+					if($cuartoLineaPORCENTAJE >= 0) 
+					{
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					else 
+					{ 
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+					$Letra++;
 					$keyExcel++;
 					$keyExcelEspacio = $keyExcel;
 					$keyExcel++;
@@ -3892,11 +3862,10 @@ function totalNivel($idNivel)
 						$Letra++;
 						for ($k=0;$k<$contadorCC;$k++)
 						{
-							echo '<th class="ta_c">PPTO</th>';
-								  /*echo '<th class="ta_c">PPTO</th>
+							echo '<th class="ta_c">PPTO</th>
 								  <th class="ta_c">REAL</th>
 								  <th class="ta_c">%</th>
-								  ';*/
+								  ';
 							$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "");
 							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
 							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
@@ -3919,12 +3888,11 @@ function totalNivel($idNivel)
 							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
 							$Letra++;
 						}
-						echo '<th class="ta_c">PPTO</th>';
-							/*echo '
+						echo '
 							<th class="ta_c">PPTO</th>
 							<th class="ta_c">REAL</th>
 							<th class="ta_c">%</th>
-							';*/
+							';
 						echo '</tr>';
 						$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "");
 						$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
@@ -3970,27 +3938,27 @@ function totalNivel($idNivel)
 					for($th=0;$th<$contadorCC;$th++)
 					{
 							$totalQuintoPPTO = (abs($primerNivelPPTO[$th]) - abs($segundoNivelPPTO[$th]) - abs($tercerNivelPPTO[$th]) - abs($cuartoNivelPPTO[$th]) - abs($quintoNivelPPTO[$th]));
-							//$totalQuintoREAL = (abs($primerNivelREAL[$th]) - abs($segundoNivelREAL[$th]) - abs($tercerNivelREAL[$th]) - abs($cuartoNivelREAL[$th]) - abs($quintoNivelREAL[$th]));
-							/////////$totalQuintoPORCENTAJE = (abs($primerNivelPORCENTAJE[$th]) - abs($segundoNivelPORCENTAJE[$th]) - abs($tercerNivelPORCENTAJE[$th]) - abs($cuartoNivelPORCENTAJE[$th]) - abs($quintoNivelPORCENTAJE[$th]));
-							//$totalQuintoPORCENTAJE = ROUND(($totalQuintoREAL/totalQuintoPPTO),2);
-							//$totalQuintoACUMULADO = (abs($primerNivelACUMULADO[$th]) - abs($segundoNivelACUMULADO[$th]) - abs($tercerNivelACUMULADO[$th]) - abs($cuartoNivelACUMULADO[$th]) - abs($quintoNivelACUMULADO[$th]));
+							$totalQuintoREAL = (abs($primerNivelREAL[$th]) - abs($segundoNivelREAL[$th]) - abs($tercerNivelREAL[$th]) - abs($cuartoNivelREAL[$th]) - abs($quintoNivelREAL[$th]));
+							//$totalQuintoPORCENTAJE = (abs($primerNivelPORCENTAJE[$th]) - abs($segundoNivelPORCENTAJE[$th]) - abs($tercerNivelPORCENTAJE[$th]) - abs($cuartoNivelPORCENTAJE[$th]) - abs($quintoNivelPORCENTAJE[$th]));
+							$totalQuintoPORCENTAJE = ROUND(($totalQuintoREAL/totalQuintoPPTO),2);
+							$totalQuintoACUMULADO = (abs($primerNivelACUMULADO[$th]) - abs($segundoNivelACUMULADO[$th]) - abs($tercerNivelACUMULADO[$th]) - abs($cuartoNivelACUMULADO[$th]) - abs($quintoNivelACUMULADO[$th]));
 							
 							if($totalQuintoPPTO >= 0) {$clase = "positivoTotal";}
 							else { $clase = "negativoTotal";	}
-							echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalQuintoPPTO,'pesos').'</th>';
+							echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalQuintoPPTO,pesos).'</th>';
 							$clase = "";
 							
-							// if($totalQuintoREAL >= 0) {$clase = "positivoTotal";}
-							// else { $clase = "negativoTotal";	}
-							// echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalQuintoREAL,pesos).'</th>';
-							// $clase = "";
+							if($totalQuintoREAL >= 0) {$clase = "positivoTotal";}
+							else { $clase = "negativoTotal";	}
+							echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalQuintoREAL,pesos).'</th>';
+							$clase = "";
 							
-							// if($totalQuintoPORCENTAJE >= 0) {$clase = "positivoTotal";}
-							// else { $clase = "negativoTotal";	}
-							// echo '<th class="ta_r '.$clase.'">'.$totalQuintoPORCENTAJE.' %</th>';
-							// $clase = "";
+							if($totalQuintoPORCENTAJE >= 0) {$clase = "positivoTotal";}
+							else { $clase = "negativoTotal";	}
+							echo '<th class="ta_r '.$clase.'">'.$totalQuintoPORCENTAJE.' %</th>';
+							$clase = "";
 							
-							//////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalQuintoPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalQuintoPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
 							$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($totalQuintoPPTO, 0, ',', '.'));
 							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
 							if($totalQuintoPPTO >= 0) 
@@ -4009,71 +3977,70 @@ function totalNivel($idNivel)
 							}
 							//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 							$Letra++;
-							$quintoLineaPPTO = 0;
-							// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalQuintoREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-							// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($totalQuintoREAL, 0, ',', '.'));
-							// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-							// if($totalQuintoREAL >= 0) 
-							// {
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							// else 
-							// { 
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							////////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-							//$Letra++;
-							////////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalQuintoPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-							// $objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, number_format(ROUND($totalQuintoPORCENTAJE), 0, ',', '.')." %");
-							// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-							// if($totalQuintoPORCENTAJE >= 0) 
-							// {
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							// else 
-							// { 
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							//////////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-							//$Letra++;
+							//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalQuintoREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($totalQuintoREAL, 0, ',', '.'));
+							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+							if($totalQuintoREAL >= 0) 
+							{
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							else 
+							{ 
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+							$Letra++;
+							//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalQuintoPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, number_format(ROUND($totalQuintoPORCENTAJE), 0, ',', '.')." %");
+							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+							if($totalQuintoPORCENTAJE >= 0) 
+							{
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							else 
+							{ 
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+							$Letra++;
 							$quintoLineaPPTO += $totalQuintoPPTO;
-							//$quintoLineaREAL += $totalQuintoREAL;
-							////////$quintoLineaPORCENTAJE += $totalQuintoPORCENTAJE;
-							//$quintoLineaPORCENTAJE = round($quintoLineaREAL/$quintoLineaPPTO,2);
-							//$quintoLineaACUMULADO += $totalQuintoACUMULADO;
+							$quintoLineaREAL += $totalQuintoREAL;
+							//$quintoLineaPORCENTAJE += $totalQuintoPORCENTAJE;
+							$quintoLineaPORCENTAJE = round($quintoLineaREAL/$quintoLineaPPTO,2);
+							$quintoLineaACUMULADO += $totalQuintoACUMULADO;
 					}
 					if($quintoLineaPPTO >= 0) {$clase = "positivoTotal";}
 					else { $clase = "negativoTotal";	}
-					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($quintoLineaPPTO,'pesos').'</th>';
+					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($quintoLineaPPTO,pesos).'</th>';
 					$clase = "";
 					
-					// if($quintoLineaREAL >= 0) {$clase = "positivoTotal";}
-					// else { $clase = "negativoTotal";	}
-					// echo '<th class="ta_r '.$clase.'">'.formatoMoneda($quintoLineaREAL,pesos).'</th>';
-					// $clase = "";
+					if($quintoLineaREAL >= 0) {$clase = "positivoTotal";}
+					else { $clase = "negativoTotal";	}
+					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($quintoLineaREAL,pesos).'</th>';
+					$clase = "";
 					
-					// if($quintoLineaPORCENTAJE >= 0) {$clase = "positivoTotal";}
-					// else { $clase = "negativoTotal";	}
-					// echo '<th class="ta_r '.$clase.'">'.$quintoLineaPORCENTAJE.' %</th>';
-					// $clase = "";
+					if($quintoLineaPORCENTAJE >= 0) {$clase = "positivoTotal";}
+					else { $clase = "negativoTotal";	}
+					echo '<th class="ta_r '.$clase.'">'.$quintoLineaPORCENTAJE.' %</th>';
+					$clase = "";
 					
 					echo '</tr>';
 					echo '<tr height="10"></tr>';
 					echo '<tr height="10"></tr>';	
 					
-					//////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $quintoLineaPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $quintoLineaPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($quintoLineaPPTO, 0, ',', '.'));
 					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
 					if($quintoLineaPPTO >= 0) 
@@ -4092,48 +4059,48 @@ function totalNivel($idNivel)
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
 					}
-					//////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 					$Letra++;
-					//////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $quintoLineaREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-					// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($quintoLineaREAL, 0, ',', '.'));
-					// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-					// if($quintoLineaREAL >= 0) 
-					// {
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					// else 
-					// { 
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					//////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-					//$Letra++;
-					//////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $quintoLineaPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-					// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($quintoLineaPORCENTAJE), 0, ',', '.')." %");
-					// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-					// if($quintoLineaPORCENTAJE >= 0) 
-					// {
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					// else 
-					// { 
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
+					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $quintoLineaREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($quintoLineaREAL, 0, ',', '.'));
+					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+					if($quintoLineaREAL >= 0) 
+					{
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					else 
+					{ 
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+					$Letra++;
+					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $quintoLineaPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($quintoLineaPORCENTAJE), 0, ',', '.')." %");
+					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+					if($quintoLineaPORCENTAJE >= 0) 
+					{
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					else 
+					{ 
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
 					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 					$Letra++;
 					$keyExcel++;
@@ -4158,11 +4125,10 @@ function totalNivel($idNivel)
 						
 						for ($k=0;$k<$contadorCC;$k++)
 						{
-							echo '<th class="ta_c">PPTO</th>';
-								  /*echo '<th class="ta_c">PPTO</th>
+							echo '<th class="ta_c">PPTO</th>
 								  <th class="ta_c">REAL</th>
 								  <th class="ta_c">%</th>
-								  ';*/
+								  ';
 							$objPHPExcel->setActiveSheetIndex(0)->setCellValue($Letra.$keyExcel, "");
 							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
 							$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
@@ -4186,12 +4152,11 @@ function totalNivel($idNivel)
 							$Letra++;
 							
 						}
-						echo '<th class="ta_c">PPTO</th>';
-							/*echo '
+						echo '
 							<th class="ta_c">PPTO</th>
 							<th class="ta_c">REAL</th>
 							<th class="ta_c">%</th>
-							';*/
+							';
 							//<th class="ta_c">ACUM</th>
 						echo '</tr>';
 						
@@ -4240,27 +4205,27 @@ function totalNivel($idNivel)
 					{
 						//quintoLineaREAL
 							$totalSextoPPTO = (abs($primerNivelPPTO[$th]) - abs($segundoNivelPPTO[$th]) - abs($tercerNivelPPTO[$th]) - abs($cuartoNivelPPTO[$th]) - abs($quintoNivelPPTO[$th]) + abs($sextoNivelPPTO[$th]));
-							//$totalSextoREAL = (abs($primerNivelREAL[$th]) - abs($segundoNivelREAL[$th]) - abs($tercerNivelREAL[$th]) - abs($cuartoNivelREAL[$th]) - abs($quintoNivelREAL[$th]) + abs($sextoNivelREAL[$th]));
-							///////$totalSextoPORCENTAJE = (abs($primerNivelPORCENTAJE[$th]) - abs($segundoNivelPORCENTAJE[$th]) - abs($tercerNivelPORCENTAJE[$th]) - abs($cuartoNivelPORCENTAJE[$th]) - abs($quintoNivelPORCENTAJE[$th]) + abs($sextoNivelPORCENTAJE[$th]));
-							//$totalSextoPORCENTAJE = round(($totalSextoREAL/$totalSextoPPTO),2);
-							//$totalSextoACUMULADO = (abs($primerNivelACUMULADO[$th]) - abs($segundoNivelACUMULADO[$th]) - abs($tercerNivelACUMULADO[$th]) - abs($cuartoNivelACUMULADO[$th]) - abs($quintoNivelACUMULADO[$th]) + abs($sextoNivelACUMULADO[$th]));
+							$totalSextoREAL = (abs($primerNivelREAL[$th]) - abs($segundoNivelREAL[$th]) - abs($tercerNivelREAL[$th]) - abs($cuartoNivelREAL[$th]) - abs($quintoNivelREAL[$th]) + abs($sextoNivelREAL[$th]));
+							//$totalSextoPORCENTAJE = (abs($primerNivelPORCENTAJE[$th]) - abs($segundoNivelPORCENTAJE[$th]) - abs($tercerNivelPORCENTAJE[$th]) - abs($cuartoNivelPORCENTAJE[$th]) - abs($quintoNivelPORCENTAJE[$th]) + abs($sextoNivelPORCENTAJE[$th]));
+							$totalSextoPORCENTAJE = round(($totalSextoREAL/$totalSextoPPTO),2);
+							$totalSextoACUMULADO = (abs($primerNivelACUMULADO[$th]) - abs($segundoNivelACUMULADO[$th]) - abs($tercerNivelACUMULADO[$th]) - abs($cuartoNivelACUMULADO[$th]) - abs($quintoNivelACUMULADO[$th]) + abs($sextoNivelACUMULADO[$th]));
 							
 							if($totalSextoPPTO >= 0) {$clase = "positivoTotal";}
 							else { $clase = "negativoTotal";	}
-							echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalSextoPPTO,'pesos').'</th>';
+							echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalSextoPPTO,pesos).'</th>';
 							$clase = "";
 							
-							// if($totalSextoREAL >= 0) {$clase = "positivoTotal";}
-							// else { $clase = "negativoTotal";	}
-							// echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalSextoREAL,pesos).'</th>';
-							// $clase = "";
+							if($totalSextoREAL >= 0) {$clase = "positivoTotal";}
+							else { $clase = "negativoTotal";	}
+							echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalSextoREAL,pesos).'</th>';
+							$clase = "";
 							
-							// if($totalSextoPORCENTAJE >= 0) {$clase = "positivoTotal";}
-							// else { $clase = "negativoTotal";	}
-							// echo '<th class="ta_r '.$clase.'">'.$totalSextoPORCENTAJE.' %</th>';
-							// $clase = "";
+							if($totalSextoPORCENTAJE >= 0) {$clase = "positivoTotal";}
+							else { $clase = "negativoTotal";	}
+							echo '<th class="ta_r '.$clase.'">'.$totalSextoPORCENTAJE.' %</th>';
+							$clase = "";
 														
-							///////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalSextoPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalSextoPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
 							$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($totalSextoPPTO, 0, ',', '.'));
 							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
 							if($totalSextoPPTO >= 0) 
@@ -4277,74 +4242,75 @@ function totalNivel($idNivel)
 								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
 								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
 							}
-							/////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+							//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 							$Letra++;
-							$sextoLineaPPTO = 0;
-							//////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalSextoREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-							// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($totalSextoREAL, 0, ',', '.'));
-							// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-							// if($totalSextoREAL >= 0) 
-							// {
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							// else 
-							// { 
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							/////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-							//$Letra++;
-							//////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalSextoPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-							// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($totalSextoPORCENTAJE), 0, ',', '.')." %");
-							// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-							// if($totalSextoPORCENTAJE >= 0) 
-							// {
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							// else 
-							// { 
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							///////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-							//$Letra++;
+							//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalSextoREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($totalSextoREAL, 0, ',', '.'));
+							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+							if($totalSextoREAL >= 0) 
+							{
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							else 
+							{ 
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+							$Letra++;
+							//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalSextoPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($totalSextoPORCENTAJE), 0, ',', '.')." %");
+							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+							if($totalSextoPORCENTAJE >= 0) 
+							{
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							else 
+							{ 
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+							$Letra++;
 							$sextoLineaPPTO += $totalSextoPPTO;
-							//$sextoLineaREAL += $totalSextoREAL;
-							///////$sextoLineaPORCENTAJE += $totalSextoPORCENTAJE;
-							//$sextoLineaPORCENTAJE = round($sextoLineaREAL/$sextoLineaPPTO,2);
-							//$sextoLineaACUMULADO += $totalSextoACUMULADO;
+							$sextoLineaREAL += $totalSextoREAL;
+							//$sextoLineaPORCENTAJE += $totalSextoPORCENTAJE;
+							$sextoLineaPORCENTAJE = round($sextoLineaREAL/$sextoLineaPPTO,2);
+							$sextoLineaACUMULADO += $totalSextoACUMULADO;
+							
+							
 					}
 					if($sextoLineaPPTO >= 0) {$clase = "positivoTotal";}
 					else { $clase = "negativoTotal";	}
-					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($sextoLineaPPTO,'pesos').'</th>';
+					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($sextoLineaPPTO,pesos).'</th>';
 					$clase = "";
 					
-					// if($sextoLineaREAL >= 0) {$clase = "positivoTotal";}
-					// else { $clase = "negativoTotal";	}
-					// $sextoLineaREAL = (array_sum($sextoNivelREAL) + $quintoLineaREAL);
-					////////echo '<th class="ta_r '.$clase.'">'.formatoMoneda($sextoLineaREAL,pesos).' - '.array_sum($sextoNivelREAL).'</th>';
-					//echo '<th class="ta_r '.$clase.'">'.formatoMoneda($sextoLineaREAL,pesos).'</th>';
-					///////quintoLineaREAL
-					//$clase = "";
+					if($sextoLineaREAL >= 0) {$clase = "positivoTotal";}
+					else { $clase = "negativoTotal";	}
+					$sextoLineaREAL = (array_sum($sextoNivelREAL) + $quintoLineaREAL);
+					//echo '<th class="ta_r '.$clase.'">'.formatoMoneda($sextoLineaREAL,pesos).' - '.array_sum($sextoNivelREAL).'</th>';
+					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($sextoLineaREAL,pesos).'</th>';
+					//quintoLineaREAL
+					$clase = "";
 					
-					// if($sextoLineaPORCENTAJE >= 0) {$clase = "positivoTotal";}
-					// else { $clase = "negativoTotal";	}
-					// echo '<th class="ta_r '.$clase.'">'.$sextoLineaPORCENTAJE.' %</th>';					
+					if($sextoLineaPORCENTAJE >= 0) {$clase = "positivoTotal";}
+					else { $clase = "negativoTotal";	}
+					echo '<th class="ta_r '.$clase.'">'.$sextoLineaPORCENTAJE.' %</th>';					
 					echo '</tr>';
 					echo '<tr height="10"></tr>';
 					echo '<tr height="10"></tr>';	
 					
-					///////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $sextoLineaPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $sextoLineaPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($sextoLineaPPTO, 0, ',', '.'));
 					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
 					if($sextoLineaPPTO >= 0) 
@@ -4363,52 +4329,53 @@ function totalNivel($idNivel)
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
 					}
-					//////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 					$Letra++;
-					///////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $sextoLineaREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($sextoLineaREAL, 0, ',', '.'));
-					//$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-					//////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelRight);
-					//////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
-					// if($sextoLineaREAL >= 0) 
-					// {
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					// else 
-					// { 
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					////////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-					//$Letra++;
-					///////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $sextoLineaPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-					// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($sextoLineaPORCENTAJE), 0, ',', '.')." %");
-					// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-					// if($sextoLineaPORCENTAJE >= 0) 
-					// {
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					// else 
-					// { 
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					/////////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-					//$Letra++;
+					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $sextoLineaREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($sextoLineaREAL, 0, ',', '.'));
+					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelRight);
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
+					if($sextoLineaREAL >= 0) 
+					{
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					else 
+					{ 
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+					$Letra++;
+					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $sextoLineaPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($sextoLineaPORCENTAJE), 0, ',', '.')." %");
+					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+					if($sextoLineaPORCENTAJE >= 0) 
+					{
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					else 
+					{ 
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+					$Letra++;
 					$keyExcel++;		
 					$keyExcelEspacio = $keyExcel;
 					$keyExcel++;
@@ -4437,16 +4404,16 @@ function totalNivel($idNivel)
 				
 					}
 					$fechaactual="select month(GETDATE()) as mes, YEAR(GETDATE())  as ano";
-					$registros_fecha2=sqlsrv_query($conn,$fechaactual,array(),array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-					while($registros_fecha=sqlsrv_fetch_array($registros_fecha2))
+					$registros_fecha=sqlsrv_query($conn,$fechaactual,array(),array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+					while($registros_fecha=sqlsrv_fetch_array($registros_fecha))
 					{
 					$mes=$registros_fecha['mes'];
 					$ano=$registros_fecha['ano'];
 				
 					}
 					$consultarimpuesto="select impuesto as impuesto from  parametros where mes='".$mes."' and  ano='".$ano."'";
-					$consulta_impuesto2=sqlsrv_query($conn,$consultarimpuesto,array(),array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
-					while($consulta_impuesto=sqlsrv_fetch_array($consulta_impuesto2))
+					$consulta_impuesto=sqlsrv_query($conn,$consultarimpuesto,array(),array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+					while($consulta_impuesto=sqlsrv_fetch_array($consulta_impuesto))
 					{
 						$valorimpuesto=$consulta_impuesto['impuesto'];		
 					}
@@ -4454,7 +4421,9 @@ function totalNivel($idNivel)
 					if($impuesto==$valorimpuesto)
 					{
 						$valorimpuesto=$valorimpuesto;
+						
 					}
+
 					else
 					{
 						$modificaimpuesto="update parametros  set impuesto ='".$impuesto."' where impuesto='".$valorimpuesto."'";
@@ -4468,52 +4437,67 @@ function totalNivel($idNivel)
 						}
 						$insertarimpuesto="insert into registrarimpuesto(impuesto,mes,ano) values('".$impuesto."','".$mes."','".$ano."')";
 						$insertandoimpuesto=sqlsrv_query($conn,$insertarimpuesto,array(),array( "Scrollable" => SQLSRV_CURSOR_KEYSET ));
+						// echo $insertarimpuesto;
+						
 						}
 
                    
-						$valorimpuestoacalcular=100-$valorimpuesto;
-						$valorimpuestoacalcular=$valorimpuestoacalcular/100;
+						 $valorimpuestoacalcular=100-$valorimpuesto;
+						
+				          $valorimpuestoacalcular=$valorimpuestoacalcular/100;
 			
+					//26.53
+					//$porcentajeUtilidadNeta = 0.745;
 					if($ano == '2017')
 					{
+						//$porcentajeUtilidadNeta = 0.745;
+						//$porcentajeUtilidadNeta = 0.7309273;
+						//$porcentajeUtilidadNeta = 0.7347;
 						$porcentajeUtilidadNeta = $valorimpuestoacalcular; //27
+				
 					}
 					else
 					{
+						//$porcentajeUtilidadNeta = 0.73;
+						//$porcentajeUtilidadNeta = 0.7309273;
+						//$porcentajeUtilidadNeta = 0.7347;
 						$porcentajeUtilidadNeta = $valorimpuestoacalcular; //27 
+					
 					}
+					
+					//echo $porcentajeUtilidadNeta."<--- PORCENTAJE UTILIDAD NETA";
 					
 					for($th=0;$th<$contadorCC;$th++)
 					{
 							$totalSextoPPTO = (abs($primerNivelPPTO[$th]) - abs($segundoNivelPPTO[$th]) - abs($tercerNivelPPTO[$th]) - abs($cuartoNivelPPTO[$th]) - abs($quintoNivelPPTO[$th]) + abs($sextoNivelPPTO[$th]));
-							// $totalSextoREAL = (abs($primerNivelREAL[$th]) - abs($segundoNivelREAL[$th]) - abs($tercerNivelREAL[$th]) - abs($cuartoNivelREAL[$th]) - abs($quintoNivelREAL[$th]) + abs($sextoNivelREAL[$th]));
-							//////$totalSextoPORCENTAJE = (abs($primerNivelPORCENTAJE[$th]) - abs($segundoNivelPORCENTAJE[$th]) - abs($tercerNivelPORCENTAJE[$th]) - abs($cuartoNivelPORCENTAJE[$th]) - abs($quintoNivelPORCENTAJE[$th]) + abs($sextoNivelPORCENTAJE[$th]));
-							// $totalSextoPORCENTAJE = round(($totalSextoREAL/$totalSextoPPTO),2);
+							$totalSextoREAL = (abs($primerNivelREAL[$th]) - abs($segundoNivelREAL[$th]) - abs($tercerNivelREAL[$th]) - abs($cuartoNivelREAL[$th]) - abs($quintoNivelREAL[$th]) + abs($sextoNivelREAL[$th]));
+							//$totalSextoPORCENTAJE = (abs($primerNivelPORCENTAJE[$th]) - abs($segundoNivelPORCENTAJE[$th]) - abs($tercerNivelPORCENTAJE[$th]) - abs($cuartoNivelPORCENTAJE[$th]) - abs($quintoNivelPORCENTAJE[$th]) + abs($sextoNivelPORCENTAJE[$th]));
+							$totalSextoPORCENTAJE = round(($totalSextoREAL/$totalSextoPPTO),2);
 							
-							// $totalSextoACUMULADO = (abs($primerNivelACUMULADO[$th]) - abs($segundoNivelACUMULADO[$th]) - abs($tercerNivelACUMULADO[$th]) - abs($cuartoNivelACUMULADO[$th]) - abs($quintoNivelACUMULADO[$th]) + abs($sextoNivelACUMULADO[$th]));
+							$totalSextoACUMULADO = (abs($primerNivelACUMULADO[$th]) - abs($segundoNivelACUMULADO[$th]) - abs($tercerNivelACUMULADO[$th]) - abs($cuartoNivelACUMULADO[$th]) - abs($quintoNivelACUMULADO[$th]) + abs($sextoNivelACUMULADO[$th]));
 							
 							$totalNetoPPTO = ($totalSextoPPTO*$valorimpuestoacalcular);
-							// $totalNetoREAL = ($totalSextoREAL*$valorimpuestoacalcular);
-							// $totalNetoPORCENTAJE = $totalSextoPORCENTAJE;
-							// $totalNetoACUMULADO = ($totalSextoACUMULADO*$valorimpuestoacalcular);
+							$totalNetoREAL = ($totalSextoREAL*$valorimpuestoacalcular);
+							$totalNetoPORCENTAJE = $totalSextoPORCENTAJE;
+							$totalNetoACUMULADO = ($totalSextoACUMULADO*$valorimpuestoacalcular);
 							
 							
 							if($totalNetoPPTO >= 0) {$clase = "positivoTotal";}
 							else { $clase = "negativoTotal";	}
-							echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalNetoPPTO,'pesos').'</th>';
+							echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalNetoPPTO,pesos).'</th>';
 							$clase = "";
 							
-							// if($totalNetoREAL >= 0) {$clase = "positivoTotal";}
-							// else { $clase = "negativoTotal";	}
-							// echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalNetoREAL,pesos).'</th>';
-							// $clase ="";
+							if($totalNetoREAL >= 0) {$clase = "positivoTotal";}
+							else { $clase = "negativoTotal";	}
+							echo '<th class="ta_r '.$clase.'">'.formatoMoneda($totalNetoREAL,pesos).'</th>';
+							$clase ="";
 							
-							// if($totalNetoPORCENTAJE >= 0) {$clase = "positivoTotal";}
-							// else { $clase = "negativoTotal";	}
-							// echo '<th class="ta_r '.$clase.'">'.$totalNetoPORCENTAJE.' %</th>';
-							// $clase = "";
+							if($totalNetoPORCENTAJE >= 0) {$clase = "positivoTotal";}
+							else { $clase = "negativoTotal";	}
+							echo '<th class="ta_r '.$clase.'">'.$totalNetoPORCENTAJE.' %</th>';
+							$clase = "";
 							
-							///////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalNetoPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalNetoPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
 							$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($totalNetoPPTO, 0, ',', '.'));
 							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
 							if($totalNetoPPTO >= 0) 
@@ -4530,71 +4514,75 @@ function totalNivel($idNivel)
 								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
 								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
 							}
-							///////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+							//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 							$Letra++;
-							$netoLineaPPTO = 0;
-							////////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalNetoREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-							// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($totalNetoREAL, 0, ',', '.'));
-							// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-							// if($totalNetoREAL >= 0) 
-							// {
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							// else 
-							// { 
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							///////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-							//$Letra++;
-							/////////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalNetoPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-							// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($totalNetoPORCENTAJE), 0, ',', '.')." %");
-							// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-							// if($totalNetoPORCENTAJE >= 0) 
-							// {
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							// else 
-							// { 
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-							// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-							// }
-							////////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-							//$Letra++;
+							//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalNetoREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($totalNetoREAL, 0, ',', '.'));
+							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+							if($totalNetoREAL >= 0) 
+							{
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							else 
+							{ 
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+							$Letra++;
+							//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $totalNetoPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($totalNetoPORCENTAJE), 0, ',', '.')." %");
+							$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+							if($totalNetoPORCENTAJE >= 0) 
+							{
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							else 
+							{ 
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+								$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+							}
+							//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+							$Letra++;
 							
 							$netoLineaPPTO += $totalNetoPPTO;
-							//$netoLineaREAL += $totalNetoREAL;
-							////////$netoLineaPORCENTAJE += $totalNetoPORCENTAJE;
-							//$netoLineaPORCENTAJE = round($netoLineaREAL/$netoLineaPPTO,2);
-							//$netoLineaACUMULADO += $totalNetoACUMULADO;
+							$netoLineaREAL += $totalNetoREAL;
+							//$netoLineaPORCENTAJE += $totalNetoPORCENTAJE;
+							$netoLineaPORCENTAJE = round($netoLineaREAL/$netoLineaPPTO,2);
+							$netoLineaACUMULADO += $totalNetoACUMULADO;
+							
+							
 					}
-					//$netoLineaR = (($sextoLineaREAL * $valorimpuesto)/100);
+					//26.9072700 
+					//26.53
+					//27.00
+					$netoLineaR = (($sextoLineaREAL * $valorimpuesto)/100);
 					if($netoLineaPPTO >= 0) {$clase = "positivoTotal";}
 					else { $clase = "negativoTotal";	}
-					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($netoLineaPPTO,'pesos').'</th>';
+					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($netoLineaPPTO,pesos).'</th>';
 					$clase = "";
 					
-					// if($netoLineaR >= 0) {$clase = "positivoTotal";}
-					// else { $clase = "negativoTotal";	}
-					// echo '<th class="ta_r '.$clase.'">'.formatoMoneda($netoLineaR,pesos).'</th>';
-					// $clase = "";
+					if($netoLineaR >= 0) {$clase = "positivoTotal";}
+					else { $clase = "negativoTotal";	}
+					echo '<th class="ta_r '.$clase.'">'.formatoMoneda($netoLineaR,pesos).'</th>';
+					$clase = "";
 					
-					// if($netoLineaPORCENTAJE >= 0) {$clase = "positivoTotal";}
-					// else { $clase = "negativoTotal";	}
-					// echo '<th class="ta_r '.$clase.'">'.$netoLineaPORCENTAJE.' %</th>';
-					// $clase = "";					
+					if($netoLineaPORCENTAJE >= 0) {$clase = "positivoTotal";}
+					else { $clase = "negativoTotal";	}
+					echo '<th class="ta_r '.$clase.'">'.$netoLineaPORCENTAJE.' %</th>';
+					$clase = "";					
 					echo '</tr>';
-					//////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $netoLineaPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $netoLineaPPTO, PHPExcel_Cell_DataType::TYPE_NUMERIC);
 					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($netoLineaPPTO, 0, ',', '.'));
 					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
 					if($netoLineaPPTO >= 0) 
@@ -4613,61 +4601,61 @@ function totalNivel($idNivel)
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
 						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
 					}
-					//////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
 					$Letra++;
-					///////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $netoLineaREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($netoLineaR, 0, ',', '.'));
-					//$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-					/////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelRight);
-					/////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
-					// if($netoLineaREAL >= 0) 
-					// {
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					// else 
-					// { 
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					/////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-					//$Letra++;
-					///////$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $netoLineaPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-					// $objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($netoLineaPORCENTAJE), 0, ',', '.')." %");
-					// $objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
-					// if($netoLineaPORCENTAJE >= 0) 
-					// {
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
-					// else 
-					// { 
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
-					// 	$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
-					// }
+					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $netoLineaREAL, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format($netoLineaR, 0, ',', '.'));
+					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelRight);
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelColorTitulo);
+					if($netoLineaREAL >= 0) 
+					{
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					else 
+					{ 
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+					$Letra++;
+					//$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, $netoLineaPORCENTAJE, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+					$objPHPExcel->setActiveSheetIndex(0)->setCellValueExplicit($Letra.$keyExcel, number_format(ROUND($netoLineaPORCENTAJE), 0, ',', '.')." %");
+					$objPHPExcel->getActiveSheet()->getColumnDimension($Letra);
+					if($netoLineaPORCENTAJE >= 0) 
+					{
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelPositivoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
+					else 
+					{ 
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelNegativoTotal);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($excelCentro);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->applyFromArray($bordeCompleto);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($bordeIzqDer);
+						$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcelEspacio)->applyFromArray($excelColorTitulo);
+					}
 					
-					//////FORMATO NUMERO===>$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-					///////$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-					//$Letra++;
+					///FORMATO NUMERO===>$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+					//$objPHPExcel->getActiveSheet()->getStyle($Letra.$keyExcel)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
+					$Letra++;
 					$keyExcel++;
 					$keyExcel++;
 					$Letra = "A";
 				}
 				//var_dump($sumaPPTO);
 				//echo "<br><br>";
-				
+				$sumaPPTO = "";
 				$sumaREAL = "";
 				$sumaPORCENTAJE = "";
 				$sumaACUMULADO = "";	
@@ -4676,7 +4664,7 @@ function totalNivel($idNivel)
 				$lineaTotalREAL = 0;
 				$lineaTotalPORCENTAJE = 0;
 				$lineaTotalACUMULADO = 0;
-				$sumaPPTO = array(null);
+				
 
 			
 				
@@ -4684,6 +4672,7 @@ function totalNivel($idNivel)
 			else
 			{
 				$indiceRows =1;
+				
 			}
 			$banderaWhile++;
 			$banderaNivel++;
