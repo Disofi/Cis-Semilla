@@ -1,0 +1,127 @@
+ public List<EstructuraServicio.Servicio> GetServiciosParaderos(string Id)
+        {
+            List<EstructuraServicio.Servicio> Servicio = new List<EstructuraServicio.Servicio>();
+            EstructuraServicio.Servicio ser;
+            List<Paraderos.NewParaderos> p = new List<Paraderos.NewParaderos>();
+            Paraderos.NewParaderos np;
+
+            string[] dato;
+            using (SqlConnection cn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["conexion"].ToString()))
+            {
+                SqlCommand cmd = new SqlCommand("App_GetServiciosConductor", cn);
+                cn.Open();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                dato = Id.Split('=');
+                cmd.Parameters.AddWithValue("Id", dato[1]);
+                SqlDataReader dr = cmd.ExecuteReader();
+                
+                while (dr.Read())
+                {
+                    ser = new EstructuraServicio.Servicio
+                    {
+                        Id = Convert.ToInt32(dr[0]),
+                        Fecha = dr[1].ToString(),
+                        NroPax = Convert.ToInt32(dr[2]),
+                        Hora = dr[3].ToString(),
+                        LugarPresentacion = dr[4].ToString(),
+                        ObsVenta = dr[6].ToString(),
+                        ObsTrafico = dr[7].ToString(),
+                        Contacto = dr[8].ToString(),
+                        Cliente = dr[9].ToString(),
+                        Ruta = dr[10].ToString(),
+                        LatitudInicio = dr[16].ToString(),
+                        LongitudInicio = dr[17].ToString(),
+                        ListadoQr = dr[19].ToString(),
+                        Estado = Convert.ToInt32(dr[20])
+                    };
+                    Servicio.Add(ser);
+                    using (SqlConnection c_n = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["conexion"].ToString()))
+                    {
+                        SqlCommand cm_d = new SqlCommand("App_GetParaderos", c_n);
+                        c_n.Open();
+                        cm_d.CommandType = System.Data.CommandType.StoredProcedure;
+                        cm_d.Parameters.AddWithValue("servicio", ser.Id);
+                        SqlDataReader d_r = cm_d.ExecuteReader();
+                        while (d_r.Read())
+                        {
+                            np = new Paraderos.NewParaderos();
+                            np.Latitud = d_r[0].ToString();
+                            np.Longitud = d_r[1].ToString();
+                            np.Direccion = d_r[2].ToString();
+                            np.Orden = Convert.ToInt32(d_r[3]);
+                            p.Add(np);
+                        }
+                        ser.Paradas.Add(p);
+                    }                    
+
+                    
+                }
+                
+                return Servicio;
+            }
+        }
+		
+CLASE
+ public class EstructuraServicio
+    {        
+        public struct Servicio
+        {
+            public int Id;
+            public string Nombre;
+            public string Ruta;
+            public string Hora;
+            public string Fecha;
+            public string Cliente;
+            public string Contacto;
+            public string LugarPresentacion;
+            public int NroPax;
+            public string ObsVenta;
+            public string ObsTrafico;
+            public string LatitudInicio;
+            public string LongitudInicio;
+            public string ListadoQr;
+            public int Estado;
+            public string Latitud;
+            public string Longitud;
+            public string Direccion;
+            public int Orden;
+            private new List<Paraderos.NewParaderos> Para;
+
+            public List<Paraderos.NewParaderos> Paradas { get => Para; set => Para = value; }
+        }
+
+        public struct Paradero
+        {
+            public string Latitud;
+            public string Longitud;
+            public string Direccion;
+            public int Orden;
+        }
+    }
+	
+public class Paraderos
+    {
+        public class Paradas
+        {
+            public string latitud { get; set; }
+            public string longitud { get; set; }
+            public string direccion { get; set; }
+            public int orden { get; set; }
+
+            public Paradas()
+            {
+                latitud = "";
+                longitud = "";
+                direccion = "";
+                orden = 0;
+            }
+        }
+
+        public struct NewParaderos
+        {
+            public string Latitud;
+            public string Longitud;
+            public string Direccion;
+            public int Orden;
+        }
+    }
